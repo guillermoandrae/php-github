@@ -1,0 +1,33 @@
+{
+    "name": "guillermoandrae/php-github",
+    "type": "library",
+    "description": "PHP GitHub client",
+    "homepage": "https://github.com/guillermoandrae/php-github",
+    "keywords": ["github", "gh", "api", "gist"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guillermo A. Fisher",
+            "email": "guillermoandraefisher@gmail.com",
+            "homepage": "http://github.com/guillermoandrae"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "guzzlehttp/guzzle": "~5.0",
+        "doctrine/cache": "~1.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "GitHub\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "GitHubTest\\": "tests/"
+        }
+    }
+}

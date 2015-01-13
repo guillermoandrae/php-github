@@ -25,7 +25,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \GitHub\Resource\Exception\InvalidResourceException
+     * @expectedException \GitHub\Resource\Exception\InvalidResourceNameException
      */
     public function testGetInvalidResource()
     {

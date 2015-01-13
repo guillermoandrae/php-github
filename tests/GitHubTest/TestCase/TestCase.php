@@ -9,6 +9,7 @@
 namespace GitHubTest\TestCase;
 
 use GitHub\Adapter\GuzzleAdapter;
+use GuzzleHttp\Message\Response;
 use GuzzleHttp\Subscriber\History;
 use GuzzleHttp\Subscriber\Mock;
 
@@ -32,22 +33,22 @@ class TestCase extends \PHPUnit_Framework_TestCase
         return json_decode(file_get_contents($path), true);
     }
 
-    protected function setMockResponse($statusCode, $body = '')
+    protected function setMockResponse($statusCode, array $body = [])
     {
         $statusText = '';
+        $bodyAsString = json_encode($body);
         switch($statusCode) {
             case 200:
                 $statusText = 'OK';
                 break;
         }
-        $data = sprintf(
+        $mockResponse = new Mock([sprintf(
             "HTTP/1.1 %d %s\r\nContent-Length: %d\r\n\r\n%s",
             $statusCode,
             $statusText,
-            strlen($body),
-            $body
-        );
-        $mockResponse = new Mock([$data]);
+            strlen($bodyAsString),
+            $bodyAsString
+        )]);
         $this->getAdapter()->getHttpClient()->getEmitter()->attach($mockResponse);
     }
 

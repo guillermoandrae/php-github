@@ -11,20 +11,22 @@ namespace GitHubTest\Adapter;
 use Doctrine\Common\Cache\FilesystemCache;
 use GitHub\Adapter\AdapterInterface;
 use GitHubTest\TestCase\TestCase;
+use GuzzleHttp\Client;
 
 class GuzzleAdapterTest extends TestCase
 {
-    public function testSetAuthentication()
+    public function testSetGetAuthentication()
     {
         $auth = ['octocat', '1234567890', AdapterInterface::AUTH_OAUTH_TOKEN];
-        $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
-        $this->assertSame($auth, $this->getAdapter()->getHttpClient()->getDefaultOption('auth'));
+        $result = $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
+        $this->assertInstanceOf('\GitHub\Adapter\GuzzleAdapter', $result);
+        $this->assertSame($auth, $this->getAdapter()->getAuthentication());
     }
 
     /**
-     * @expectedException \GitHub\Client\Exception\AuthException
+     * @expectedException \GitHub\Adapter\Exception\MissingCredentialsException
      */
-    public function testSetInvalidAuthentication()
+    public function testSetMissingCredentialsAuthentication()
     {
         $auth = ['octocat', null, AdapterInterface::AUTH_OAUTH_TOKEN];
         $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
@@ -32,98 +34,105 @@ class GuzzleAdapterTest extends TestCase
         $this->getAdapter()->get('/zen');
     }
 
-    public function testGetHttpClient()
+    /**
+     * @expectedException \GitHub\Adapter\Exception\InvalidAuthenticationSchemeException
+     */
+    public function testSetInvalidSchemeAuthentication()
     {
-        $httpClient = $this->getAdapter()->getHttpClient();
-        $this->assertInstanceOf('\GuzzleHttp\Client', $httpClient);
+        $auth = ['octocat', '1234567890', 'foo'];
+        $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
+        $this->setMockResponse(200);
+        $this->getAdapter()->get('/zen');
     }
 
-    public function testGetCache()
+    public function testSetGetHttpClient()
     {
-        $this->assertNull($this->getAdapter()->getCache());
+        $httpClient = new Client(['base_url' => 'https://localhost:8080']);
+        $result = $this->getAdapter()->setHttpClient($httpClient);
+        $this->assertInstanceOf('\GitHub\Adapter\GuzzleAdapter', $result);
+        $this->assertSame($httpClient, $this->getAdapter()->getHttpClient());
+    }
+
+    public function testSetGetCache()
+    {
         $cache = new FilesystemCache('/tmp/php-github-test');
-        $this->assertInstanceOf('\Doctrine\Common\Cache\FilesystemCache', $cache);
+        $result = $this->getAdapter()->setCache($cache);
+        $this->assertInstanceOf('\GitHub\Adapter\GuzzleAdapter', $result);
+        $this->assertSame($cache, $this->getAdapter()->getCache());
     }
 
     public function testGet()
     {
         $uri = '/users/repos';
-        $expectedMethod = 'GET';
         $expectedStatusCode = 200;
-        $expectedResult = json_encode($this->getMockData('repositories')[0]);
+        $expectedResult = $this->getMockData('repositories')[0];
         $this->setMockResponse($expectedStatusCode, $expectedResult);
         $this->assertSame($expectedResult, $this->getAdapter()->get($uri));
-        $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
+        $this->assertValidMockRequest('GET', $uri, $expectedStatusCode);
     }
 
     public function testPost()
     {
         $uri = '/users/repos';
-        $expectedMethod = 'POST';
         $expectedStatusCode = 201;
         $newRepository = array_merge($this->getMockData('repositories')[0], [
             'id' => 1296270,
             'name' => 'Hello-NewWorld',
         ]);
-        $expectedResult = json_encode($newRepository);
+        $expectedResult = $newRepository;
         $this->setMockResponse($expectedStatusCode, $expectedResult);
         $params = $newRepository;
         unset($params['id']);
         $this->assertSame($expectedResult, $this->getAdapter()->post($uri, $params));
-        $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
+        $this->assertValidMockRequest('POST', $uri, $expectedStatusCode);
     }
 
     public function testPut()
     {
         $uri = '/users/octocat/suspended';
-        $expectedMethod = 'PUT';
         $expectedStatusCode = 204;
         $this->setMockResponse($expectedStatusCode);
         $this->assertEmpty($this->getAdapter()->put($uri));
-        $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
+        $this->assertValidMockRequest('PUT', $uri, $expectedStatusCode);
     }
 
     public function testPatch()
     {
         $uri = '/repos/octocat/Hello-World';
-        $expectedMethod = 'PATCH';
         $expectedStatusCode = 200;
         $updates = ['name' => 'Hello-NewWorld'];
         $newRepository = array_merge($this->getMockData('repositories')[0], $updates);
-        $expectedResult = json_encode($newRepository);
+        $expectedResult = $newRepository;
         $this->setMockResponse($expectedStatusCode, $expectedResult);
         $this->assertSame($expectedResult, $this->getAdapter()->patch($uri, $updates));
-        $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
+        $this->assertValidMockRequest('PATCH', $uri, $expectedStatusCode);
     }
 
     public function testDelete()
     {
         $uri = '/repos/octocat/Hello-World';
-        $expectedMethod = 'DELETE';
         $expectedStatusCode = 204;
         $this->setMockResponse($expectedStatusCode);
         $this->assertEmpty($this->getAdapter()->delete($uri));
-        $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
+        $this->assertValidMockRequest('DELETE', $uri, $expectedStatusCode);
     }
 
     public function testHead()
     {
         $uri = '/users/repos';
-        $expectedMethod = 'HEAD';
         $expectedStatusCode = 200;
         $this->setMockResponse($expectedStatusCode);
         $this->assertEmpty($this->getAdapter()->head($uri));
-        $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
+        $this->assertValidMockRequest('HEAD', $uri, $expectedStatusCode);
     }
 
     public function testOptions()
     {
         $uri = '/users/repos';
-        $expectedMethod = 'OPTIONS';
         $expectedStatusCode = 204;
         $this->setMockResponse($expectedStatusCode);
         $this->assertEmpty($this->getAdapter()->options($uri));
-        $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
+        $this->assertValidMockRequest('OPTIONS', $uri, $expectedStatusCode);
     }
 
     public function testRequest()
@@ -131,9 +140,23 @@ class GuzzleAdapterTest extends TestCase
         $uri = '/users/repos';
         $expectedMethod = 'GET';
         $expectedStatusCode = 200;
-        $expectedResult = json_encode($this->getMockData('repositories')[0]);
+        $expectedResult = $this->getMockData('repositories')[0];
         $this->setMockResponse($expectedStatusCode, $expectedResult);
         $this->assertSame($expectedResult, $this->getAdapter()->request($expectedMethod, $uri));
+        $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
+    }
+
+    public function testCachedRequest()
+    {
+        $uri = '/users/repos';
+        $expectedMethod = 'GET';
+        $expectedStatusCode = 200;
+        $expectedResult = $this->getMockData('repositories')[0];
+        $cache = new FilesystemCache('/tmp/php-github-test');
+        $this->getAdapter()->setCache($cache);
+        $this->setMockResponse($expectedStatusCode, $expectedResult);
+        $this->assertSame($expectedResult, $this->getAdapter()->request($expectedMethod, $uri));
+        $this->assertSame($expectedResult, $this->getAdapter()->getCache()->fetch(serialize([$expectedMethod, $uri])));
         $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
     }
 
@@ -144,4 +167,4 @@ class GuzzleAdapterTest extends TestCase
         $this->assertSame($expectedUrl, $this->getMockHistory()->getLastResponse()->getEffectiveUrl());
         $this->assertSame($expectedStatusCode, $this->getMockHistory()->getLastResponse()->getStatusCode());
     }
-} 
+}

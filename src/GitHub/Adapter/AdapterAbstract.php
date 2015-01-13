@@ -10,67 +10,23 @@ namespace GitHub\Adapter;
 
 use Doctrine\Common\Cache\Cache;
 
+/**
+ * Abstract class for all GitHub API adapters.
+ *
+ * @package GitHub\Adapter
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 abstract class AdapterAbstract implements AdapterInterface
 {
+    /**
+     * @var \Doctrine\Common\Cache\Cache
+     */
     private $cache;
 
+    /**
+     * @var mixed
+     */
     private $httpClient;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function get($uri, $params = [], $headers = [])
-    {
-        return $this->request('GET', $uri, $params, $headers);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function post($uri, $params = [], $headers = [])
-    {
-        return $this->request('POST', $uri, $params, $headers);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function put($uri, $params = [], $headers = [])
-    {
-        return $this->request('PUT', $uri, $params, $headers);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function patch($uri, $params = [], $headers = [])
-    {
-        return $this->request('PATCH', $uri, $params, $headers);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function delete($uri, $params = [], $headers = [])
-    {
-        return $this->request('DELETE', $uri, $params, $headers);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function head($uri, $params = [], $headers = [])
-    {
-        return $this->request('HEAD', $uri, $params, $headers);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function options($uri, $params = [], $headers = [])
-    {
-        return $this->request('OPTIONS', $uri, $params, $headers);
-    }
 
     /**
      * {@inheritdoc}
@@ -78,6 +34,7 @@ abstract class AdapterAbstract implements AdapterInterface
     public function setCache(Cache $cache)
     {
         $this->cache = $cache;
+        return $this;
     }
 
     /**

@@ -4,14 +4,22 @@ namespace GitHub\Resource;
 
 use GitHub\Adapter\AdapterInterface;
 
+/**
+ * Resource mapper factory.
+ *
+ * @package GitHub\Resource
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class ResourceMapperFactory
 {
     /**
-     * @param string $name
+     * Returns the mapper for the resource with the provided name.
+     *
+     * @param string $name The name of the desired resource.
      * @param AdapterInterface $adapter
      *
      * @return ResourceMapperInterface
-     * @throws Exception\InvalidResourceException
+     * @throws Exception\InvalidResourceNameException
      */
     public static function factory($name, AdapterInterface $adapter)
     {
@@ -21,7 +29,8 @@ class ResourceMapperFactory
             $reflectionClass = new \ReflectionClass($className);
             $resource = $reflectionClass->newInstance($adapter);
         } catch (\Exception $ex) {
-            throw new Exception\InvalidResourceException(sprintf('"%s" is an invalid GitHub resource.', $name));
+            $message = sprintf('"%s" is not the name of a valid GitHub resource.', $name);
+            throw new Exception\InvalidResourceNameException($message);
         }
         return $resource;
     }

@@ -8,26 +8,41 @@
 
 namespace GitHub\Adapter;
 
+/**
+ * Trait for objects that are aware of the adapter.
+ *
+ * @package GitHub\Adapter
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 trait AdapterAwareTrait
 {
     /**
+     * The adapter object.
+     *
      * @var AdapterInterface
      */
     protected $adapter;
 
     /**
+     * Registers an adapter object.
+     *
+     * @param AdapterInterface $adapter An adapter object
+     *
+     * @return AdapterAwareTrait
+     */
+    public function setAdapter(AdapterInterface $adapter)
+    {
+        $this->adapter = $adapter;
+        return $this;
+    }
+
+    /**
+     * Returns the registered adapter object.
+     *
      * @return AdapterInterface
      */
     public function getAdapter()
     {
         return $this->adapter;
-    }
-
-    /**
-     * @param AdapterInterface $adapter
-     */
-    public function setAdapter(AdapterInterface $adapter)
-    {
-        $this->adapter = $adapter;
     }
 }

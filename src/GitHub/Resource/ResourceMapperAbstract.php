@@ -9,14 +9,14 @@
 namespace GitHub\Resource;
 
 use GitHub\Adapter\AdapterAwareTrait;
-use GitHub\Adapter\AdapterInterface;
 
+/**
+ * Abstract for resource mapper objects.
+ *
+ * @package GitHub\Resource
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 abstract class ResourceMapperAbstract implements ResourceMapperInterface
 {
     use AdapterAwareTrait;
-
-    public function __construct(AdapterInterface $adapter)
-    {
-        $this->setAdapter($adapter);
-    }
-} 
+}

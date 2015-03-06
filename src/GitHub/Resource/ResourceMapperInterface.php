@@ -8,10 +8,14 @@
 
 namespace GitHub\Resource;
 
-use GitHub\Adapter\AdapterInterface;
+use GitHub\Adapter\AdapterAwareInterface;
 
-interface ResourceMapperInterface
+/**
+ * Interface for resource mapper objects.
+ *
+ * @package GitHub\Adapter
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
+interface ResourceMapperInterface extends AdapterAwareInterface
 {
-    public function getAdapter();
-    public function setAdapter(AdapterInterface $adapter);
-} 
+}

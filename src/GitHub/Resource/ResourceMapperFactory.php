@@ -1,4 +1,10 @@
 <?php
+/**
+ * This file is part of the php-github package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace GitHub\Resource;
 
@@ -19,19 +25,19 @@ class ResourceMapperFactory
      * @param AdapterInterface $adapter
      *
      * @return ResourceMapperInterface
-     * @throws Exception\InvalidResourceNameException
+     * @throws Exception\ResourceNotFoundException
      */
     public static function factory($name, AdapterInterface $adapter)
     {
-        $namespace = '\GitHub\Resource';
-        $className = sprintf('%s\%s\%sMapper', $namespace, ucfirst($name), ucfirst($name));
         try {
+            $namespace = '\GitHub\Resource';
+            $className = sprintf('%s\%s\%sMapper', $namespace, ucfirst($name), ucfirst($name));
             $reflectionClass = new \ReflectionClass($className);
             $resource = $reflectionClass->newInstance($adapter);
-        } catch (\Exception $ex) {
-            $message = sprintf('"%s" is not the name of a valid GitHub resource.', $name);
-            throw new Exception\InvalidResourceNameException($message);
+            return $resource;
+        } catch (\ReflectionException $ex) {
+            $message = sprintf('The \'%s\' resource was not found.', $name);
+            throw new Exception\ResourceNotFoundException($message);
         }
-        return $resource;
     }
 }

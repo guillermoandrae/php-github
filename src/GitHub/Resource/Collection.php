@@ -8,34 +8,117 @@
 
 namespace GitHub\Resource;
 
-class Collection implements \ArrayAccess
+/**
+ * Resource collection object.
+ *
+ * @package GitHub\Resource
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
+class Collection implements \Iterator, \IteratorAggregate, \ArrayAccess
 {
+    /**
+     * @var array
+     */
     private $collection = [];
 
-    public function offsetSet($offset, $value)
+    /**
+     * @param array $collection
+     */
+    public function __construct(array $collection = [])
     {
-        if (!is_a($value, '\GitHub\Resource\ResourceInterface')) {
-            throw new \Exception();
-        }
-        if (is_null($offset)) {
-            $this->collection[] = $value;
-        } else {
-            $this->collection[$offset] = $value;
-        }
+        $this->collection = $collection;
     }
 
-    public function offsetExists($offset)
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind()
     {
-        return isset($this->collection[$offset]);
+        reset($this->collection);
     }
 
-    public function offsetGet($offset)
+    /**
+     * {@inheritdoc}
+     */
+    public function current()
     {
-        return isset($this->collection[$offset]) ? $this->collection[$offset] : null;
+        return current($this->collection);
     }
 
-    public function offsetUnset($offset)
+    /**
+     * {@inheritdoc}
+     */
+    public function key()
     {
-        unset($this->collection[$offset]);
+        return key($this->collection);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function next()
+    {
+        return next($this->collection);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function valid()
+    {
+        return (null === $this->current());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetExists($index)
+    {
+        return array_key_exists($index, $this->collection);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetUnset($index)
+    {
+        unset($this->collection[$index]);
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetSet($index, $resource)
+    {
+        $this->collection[$index] = $resource;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetGet($index)
+    {
+        return $this->collection[$index];
+    }
+
+    public function add(ResourceInterface $resource)
+    {
+        $this->collection[] = $resource;
+        return $this;
+    }
+
+    public function count()
+    {
+        return count($this->collection);
     }
 }

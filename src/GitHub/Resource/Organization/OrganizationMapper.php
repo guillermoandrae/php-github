@@ -8,8 +8,8 @@
 
 namespace GitHub\Resource\Organization;
 
+use GitHub\Resource\ResourceMapperAbstract;
 
-class OrganizationMapper
+class OrganizationMapper extends ResourceMapperAbstract
 {
-
-} 
+}

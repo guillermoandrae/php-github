@@ -6,6 +6,8 @@ php:
   - 5.6
   - hhvm
 
+sudo: false
+
 matrix:
   fast_finish: true
   allow_failures:
@@ -17,7 +19,7 @@ install:
 
 script:
   - ./vendor/bin/phpunit --coverage-clover=coverage.clover
-  - ./vendor/bin/phpcs -v --standard=PSR2 --extensions=php
+  - ./vendor/bin/phpcs --standard=PSR2 --extensions=php src
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

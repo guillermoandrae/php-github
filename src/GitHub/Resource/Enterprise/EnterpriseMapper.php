@@ -10,5 +10,4 @@ namespace GitHub\Resource\Enterprise;
 
 class EnterpriseMapper
 {
-
-} 
+}

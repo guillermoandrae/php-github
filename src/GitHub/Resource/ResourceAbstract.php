@@ -7,6 +7,7 @@
  */
 
 namespace GitHub\Resource;
+
 use ICanBoogie\Inflector;
 
 /**

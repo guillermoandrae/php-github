@@ -8,8 +8,9 @@
 
 namespace GitHub\Resource\Repository;
 
+use GitHub\Resource\ResourceMapperAbstract;
 
-class RepositoryMapper
+class RepositoryMapper extends ResourceMapperAbstract
 {
 
-} 
+}

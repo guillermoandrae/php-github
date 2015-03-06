@@ -8,7 +8,7 @@
 
 namespace GitHub\Client;
 
-use GitHub\Adapter\AdapterInterface;
+use GitHub\Adapter\AdapterAwareInterface;
 
 /**
  * Interface for the GitHub client.
@@ -16,7 +16,7 @@ use GitHub\Adapter\AdapterInterface;
  * @package GitHub\Client
  * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
  */
-interface ClientInterface
+interface ClientInterface extends AdapterAwareInterface
 {
     /**
      * Returns the mapper object for the desired resource.
@@ -25,21 +25,5 @@ interface ClientInterface
      *
      * @return \GitHub\Resource\ResourceMapperInterface
      */
-    public function getResource($name);
-
-    /**
-     * Registers an adapter object.
-     *
-     * @param AdapterInterface $adapter An adapter object
-     *
-     * @return \GitHub\Client\ClientInterface
-     */
-    public function setAdapter(AdapterInterface $adapter);
-
-    /**
-     * Returns the registered adapter object.
-     *
-     * @return \GitHub\Adapter\AdapterInterface
-     */
-    public function getAdapter();
+    public function resource($name);
 }

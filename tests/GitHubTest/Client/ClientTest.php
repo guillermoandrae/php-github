@@ -20,7 +20,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testGetResource()
     {
         $client = $this->getClient();
-        $resource = $client->getResource('zen');
+        $resource = $client->resource('zen');
         $this->assertInstanceOf('\GitHub\Resource\ResourceMapperInterface', $resource);
     }
 
@@ -30,7 +30,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testGetInvalidResource()
     {
         $client = $this->getClient();
-        $client->getResource('foo');
+        $client->resource('foo');
     }
 
     protected function setUp()
@@ -38,7 +38,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->client = new Client();
     }
 
-    protected function getClient()
+    private function getClient()
     {
         return $this->client;
     }

@@ -13,18 +13,20 @@ use GitHub\Resource\ResourceMapperAbstract;
 
 class UserMapper extends ResourceMapperAbstract
 {
-    public function find($username)
+    public function find($login)
     {
-        $results = $this->getAdapter()->get(sprintf('/users/%s', rawurlencode($username)));
+        $results = $this->getAdapter()->get(sprintf('/users/%s', rawurlencode($login)));
         return new User($results);
     }
 
-    public function findAll($since = null, $offset = 0, $limit = null)
+    public function findAll($since = null)
     {
         $users = new Collection();
         $results = $this->getAdapter()->get('/users', array('since' => $since));
         foreach ($results as $result) {
-            $users->add(new User($result));
+            if ($result['type'] === 'User') {
+                $users->add(new User($result));
+            }
         }
         return $users;
     }

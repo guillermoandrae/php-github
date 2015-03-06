@@ -54,9 +54,85 @@ class LoginAwareTraitTest extends TestCase
         $this->assertEquals($expectedDateTimeObject, $actualDateTimeObject);
     }
 
+    public function testGetNumPrivateRepos()
+    {
+        $this->assertSame(100, $this->getUser()->getNumPrivateRepos());
+    }
+
+    public function testGetNumOwnedPrivateRepos()
+    {
+        $this->assertSame(100, $this->getUser()->getNumOwnedPrivateRepos());
+    }
+
+    public function testGetNumPublicRepos()
+    {
+        $this->assertSame(2, $this->getUser()->getNumPublicRepos());
+    }
+
+    public function testGetNumPublicGists()
+    {
+        $this->assertSame(1, $this->getUser()->getNumPublicGists());
+    }
+
+    public function testGetNumPPrivateGists()
+    {
+        $this->assertSame(81, $this->getUser()->getNumPrivateGists());
+    }
+
+    public function testGetCompany()
+    {
+        $this->assertSame('GitHub', $this->getUser()->getCompany());
+    }
+
+    public function testGetDiskUsage()
+    {
+        $this->assertSame(10000, $this->getUser()->getDiskUsage());
+    }
+
+    public function testGetNumCollaborators()
+    {
+        $this->assertSame(8, $this->getUser()->getNumCollaborators());
+    }
+
+    public function testGetBlog()
+    {
+        $this->assertSame('https://github.com/blog', $this->getUser()->getBlog());
+    }
+
+    public function testGetLocation()
+    {
+        $this->assertSame('San Francisco', $this->getUser()->getLocation());
+    }
+
+    public function testGetId()
+    {
+        $this->assertSame(1, $this->getUser()->getId());
+    }
+
+    public function testGetNumFollowers()
+    {
+        $this->assertSame(20, $this->getUser()->getNumFollowers());
+    }
+
+    public function testGetNumFollowing()
+    {
+        $this->assertSame(0, $this->getUser()->getNumFollowing());
+    }
+
+    public function testGetHtmlUrl()
+    {
+        $this->assertSame('https://github.com/octocat', $this->getUser()->getHtmlUrl());
+    }
+
+    public function testGetPlan()
+    {
+        $plan = $this->getUser()->getPlan();
+        $this->assertSame('Medium', $plan['name']);
+    }
+
     protected function setUp()
     {
-        $this->setMockResponse(200, $this->getMockData('user')[0]);
+        $this->setMockResponse(200, $this->getMockData('users')[0]);
         $mapper = new UserMapper();
         $mapper->setAdapter($this->getAdapter());
         $this->user = $mapper->find('octocat');

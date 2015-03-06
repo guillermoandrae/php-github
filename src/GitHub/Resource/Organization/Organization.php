@@ -14,4 +14,14 @@ use GitHub\Resource\ResourceAbstract;
 class Organization extends ResourceAbstract
 {
     use LoginAwareTrait;
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function getBillingEmail()
+    {
+        return $this->billingEmail;
+    }
 }

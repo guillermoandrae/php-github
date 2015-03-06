@@ -20,6 +20,11 @@ trait LoginAwareTrait
         return $this->login;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     /**
      * Return's the entity's name.
      *
@@ -28,6 +33,21 @@ trait LoginAwareTrait
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    public function getBlog()
+    {
+        return $this->blog;
+    }
+
+    public function getLocation()
+    {
+        return $this->location;
     }
 
     /**
@@ -82,5 +102,60 @@ trait LoginAwareTrait
             return $this->createdAt;
         }
         return new \DateTime($this->createdAt);
+    }
+
+    public function getNumPublicRepos()
+    {
+        return $this->publicRepos;
+    }
+
+    public function getNumPublicGists()
+    {
+        return $this->publicGists;
+    }
+
+    public function getNumFollowers()
+    {
+        return $this->followers;
+    }
+
+    public function getNumFollowing()
+    {
+        return $this->following;
+    }
+
+    public function getNumPrivateRepos()
+    {
+        return $this->totalPrivateRepos;
+    }
+
+    public function getNumOwnedPrivateRepos()
+    {
+        return $this->ownedPrivateRepos;
+    }
+
+    public function getNumPrivateGists()
+    {
+        return $this->privateGists;
+    }
+
+    public function getDiskUsage()
+    {
+        return $this->diskUsage;
+    }
+
+    public function getPlan()
+    {
+        return $this->plan;
+    }
+
+    public function getHtmlUrl()
+    {
+        return $this->htmlUrl;
+    }
+
+    public function getNumCollaborators()
+    {
+        return $this->collaborators;
     }
 }

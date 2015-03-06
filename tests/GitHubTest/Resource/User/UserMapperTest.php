@@ -15,15 +15,15 @@ class UserMapperTest extends TestCase
 {
     public function testFind()
     {
-        $this->setMockResponse(200, ['login' => 'guillermoandrae']);
-        $user = $this->getUserMapper()->find('guillermoandrae');
+        $this->setMockResponse(200, $this->getMockData('users')[0]);
+        $user = $this->getUserMapper()->find('octocat');
         $this->assertInstanceOf('\GitHub\Resource\User\User', $user);
-        $this->assertSame('guillermoandrae', $user->getLogin());
+        $this->assertSame('octocat', $user->getLogin());
     }
 
     public function testFindAll()
     {
-        $this->setMockResponse(200, [['login' => 'foo'], ['login'=>'bar']]);
+        $this->setMockResponse(200, $this->getMockData('users'));
         $users = $this->getUserMapper()->findAll();
         $this->assertInstanceOf('\GitHub\Resource\Collection', $users);
         $this->assertNotCount(0, $users);

@@ -8,8 +8,26 @@
 
 namespace GitHub\Resource\Organization;
 
+use GitHub\Resource\Collection;
 use GitHub\Resource\ResourceMapperAbstract;
 
 class OrganizationMapper extends ResourceMapperAbstract
 {
+    public function find($login)
+    {
+        $results = $this->getAdapter()->get(sprintf('/orgs/%s', rawurlencode($login)));
+        return new Organization($results);
+    }
+
+    public function findAll($since = null)
+    {
+        $orgs = new Collection();
+        $results = $this->getAdapter()->get('/users', array('since' => $since));
+        foreach ($results as $result) {
+            if ($result['type'] === 'Organization') {
+                $orgs->add(new Organization($result));
+            }
+        }
+        return $orgs;
+    }
 }

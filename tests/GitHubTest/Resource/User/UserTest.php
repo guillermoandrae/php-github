@@ -13,16 +13,33 @@ use GitHubTest\TestCase\TestCase;
 
 class UserTest extends TestCase
 {
-    public function testMe()
+    private $user;
+
+    public function testGetBio()
     {
-        $this->assertTrue(true);
+        $this->assertSame('There once was...', $this->getUser()->getBio());
+    }
+
+    public function testIsHireable()
+    {
+        $this->assertFalse($this->getUser()->isHireable());
+    }
+
+    public function testIsSiteAdmin()
+    {
+        $this->assertFalse($this->getUser()->isSiteAdmin());
     }
 
     protected function setUp()
     {
-        $this->setMockResponse(200, $this->getMockData('user')[0]);
+        $this->setMockResponse(200, $this->getMockData('users')[0]);
         $mapper = new UserMapper();
         $mapper->setAdapter($this->getAdapter());
-        $this->user = $mapper->find('guillermoandrae');
+        $this->user = $mapper->find('octocat');
+    }
+
+    private function getUser()
+    {
+        return $this->user;
     }
 }

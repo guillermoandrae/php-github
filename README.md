@@ -6,12 +6,22 @@
 ## Quick Start
 A PHP client for the GitHub API.
 
-    $client = new GitHub\Client();
+```php
+// create the client
+$client = new GitHub\Client();
 
-    $userResource = $client->resource('user');
-    $user = $userResource->find('guillermoandrae');
-    $repos = $user->getRepos();
-    $commits = $user->getCommits();
-    $gists = $user->getRepos();
+// pick a resource... like the user resouce, for example
+$userResource = $client->resource('user');
 
-    $repos = $client->resource('repos')->findAll();
+// get some useful user data...
+$user = $userResource->find('guillermoandrae');
+$repos = $user->getRepos();
+$commits = $user->getCommits();
+$gists = $user->getRepos();
+
+// or some useful organization data
+$orgs = $client->resource('organization')->findAll();
+
+// rejoice!
+echo 'YEESSSSSSSSSSSS!';
+```

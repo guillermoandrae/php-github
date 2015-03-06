@@ -17,18 +17,14 @@ namespace GitHub\Adapter;
 trait AdapterAwareTrait
 {
     /**
-     * The adapter object.
+     * An adapter object.
      *
      * @var AdapterInterface
      */
     protected $adapter;
 
     /**
-     * Registers an adapter object.
-     *
-     * @param AdapterInterface $adapter An adapter object
-     *
-     * @return AdapterAwareTrait
+     * @see AdapterAwareInterface::setAdapter()
      */
     public function setAdapter(AdapterInterface $adapter)
     {
@@ -37,9 +33,7 @@ trait AdapterAwareTrait
     }
 
     /**
-     * Returns the registered adapter object.
-     *
-     * @return AdapterInterface
+     * @see AdapterAwareInterface::getAdapter()
      */
     public function getAdapter()
     {

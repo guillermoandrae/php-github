@@ -7,9 +7,9 @@ use GitHub\Resource\ResourceMapperAbstract;
 
 class ZenMapper extends ResourceMapperAbstract
 {
-    public function find()
+    public function findOne()
     {
         $result = $this->getAdapter()->get('/zen');
-        return new Collection(new Zen($result));
+        return new Zen($result);
     }
 }

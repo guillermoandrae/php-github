@@ -11,6 +11,7 @@ namespace GitHub\Adapter;
 use GitHub\Adapter\Exception\InvalidAuthenticationSchemeException;
 use GitHub\Adapter\Exception\MissingCredentialsException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Subscriber\Cache\CacheSubscriber;
 
 /**
  * Guzzle-dependent GitHub API adapter.
@@ -31,14 +32,15 @@ class GuzzleAdapter extends AdapterAbstract
     public function __construct($baseUrl = '')
     {
         if (!$baseUrl) {
-            $baseUrl = 'https://api.github.com';
+            $baseUrl = 'https://api.github.com/';
         }
         $httpClient = new Client([
-            'base_url' => $baseUrl,
+            'base_url' => [$baseUrl, ['version' => 'v3']],
             'defaults' => [
                 'headers' => ['Accept' => 'application/vnd.github.v3+json'],
             ]
         ]);
+        CacheSubscriber::attach($httpClient);
         $this->setHttpClient($httpClient);
     }
 
@@ -68,7 +70,7 @@ class GuzzleAdapter extends AdapterAbstract
     /**
      * {@inheritdoc}
      */
-    public function get($uri, $params = [], $headers = [])
+    public function get($uri, array $params = [], array $headers = [])
     {
         return $this->request(self::HTTP_GET, $uri, ['query' => $params], $headers);
     }
@@ -76,7 +78,7 @@ class GuzzleAdapter extends AdapterAbstract
     /**
      * {@inheritdoc}
      */
-    public function post($uri, $params = [], $headers = [])
+    public function post($uri, array $params = [], array $headers = [])
     {
         return $this->request(self::HTTP_POST, $uri, ['body' => $params], $headers);
     }
@@ -84,7 +86,7 @@ class GuzzleAdapter extends AdapterAbstract
     /**
      * {@inheritdoc}
      */
-    public function put($uri, $params = [], $headers = [])
+    public function put($uri, array $params = [], array $headers = [])
     {
         return $this->request(self::HTTP_PUT, $uri, ['body' => $params], $headers);
     }
@@ -92,7 +94,7 @@ class GuzzleAdapter extends AdapterAbstract
     /**
      * {@inheritdoc}
      */
-    public function patch($uri, $params = [], $headers = [])
+    public function patch($uri, array $params = [], array $headers = [])
     {
         return $this->request(self::HTTP_PATCH, $uri, ['body' => $params], $headers);
     }
@@ -100,7 +102,7 @@ class GuzzleAdapter extends AdapterAbstract
     /**
      * {@inheritdoc}
      */
-    public function delete($uri, $params = [], $headers = [])
+    public function delete($uri, array $params = [], array $headers = [])
     {
         return $this->request(self::HTTP_DELETE, $uri, ['query' => $params], $headers);
     }
@@ -108,7 +110,7 @@ class GuzzleAdapter extends AdapterAbstract
     /**
      * {@inheritdoc}
      */
-    public function head($uri, $params = [], $headers = [])
+    public function head($uri, array $params = [], array $headers = [])
     {
         return $this->request(self::HTTP_HEAD, $uri, ['query' => $params], $headers);
     }
@@ -116,7 +118,7 @@ class GuzzleAdapter extends AdapterAbstract
     /**
      * {@inheritdoc}
      */
-    public function options($uri, $params = [], $headers = [])
+    public function options($uri, array $params = [], array $headers = [])
     {
         return $this->request(self::HTTP_OPTIONS, $uri, $params, $headers);
     }
@@ -124,7 +126,7 @@ class GuzzleAdapter extends AdapterAbstract
     /**
      * {@inheritdoc}
      */
-    public function request($type, $uri, $params = [], $headers = [])
+    public function request($type, $uri, array $params = [], array $headers = [])
     {
         $cacheKey = serialize(func_get_args());
         $options = $this->buildRequestOptions($params, $headers);

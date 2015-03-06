@@ -8,8 +8,24 @@
 
 namespace GitHub\Resource\Zen;
 
+use GitHub\Resource\ResourceAbstract;
 
-class Zen
+class Zen extends ResourceAbstract
 {
+    private $message;
 
-} 
+    public function __construct(array $data)
+    {
+        $this->message = array_shift($data);
+    }
+
+    public function __toString()
+    {
+        return $this->getMessage();
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
+    }
+}

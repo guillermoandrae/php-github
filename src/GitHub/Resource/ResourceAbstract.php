@@ -7,6 +7,7 @@
  */
 
 namespace GitHub\Resource;
+use ICanBoogie\Inflector;
 
 /**
  * Resource mapper abstract.
@@ -22,7 +23,8 @@ abstract class ResourceAbstract implements ResourceInterface
     public function __construct(array $data)
     {
         foreach ($data as $key => $value) {
-            $this->$key = $value;
+            $property = Inflector::get()->camelize($key, true);
+            $this->$property = $value;
         }
     }
 
@@ -41,7 +43,7 @@ abstract class ResourceAbstract implements ResourceInterface
             $message = sprintf('The %s method does not exist on the \'%s\' object.', $method, get_class($this));
             throw new \BadMethodCallException($message);
         }
-        $property = substr($method, 3);
+        $property = strtolower(substr($method, 3));
         if (!isset($this->$property)) {
             $message = sprintf('The %s property does not exist on the \'%s\' object.', $property, get_class($this));
             throw new \BadMethodCallException($message);

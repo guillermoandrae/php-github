@@ -9,6 +9,7 @@
 namespace GitHubTest\TestCase;
 
 use GitHub\Adapter\GuzzleAdapter;
+use GitHub\Resource\ResourceMapperFactory;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Subscriber\History;
 use GuzzleHttp\Subscriber\Mock;
@@ -58,7 +59,15 @@ class TestCase extends \PHPUnit_Framework_TestCase
             $this->history = new History();
             $this->adapter = new GuzzleAdapter();
             $this->adapter->getHttpClient()->getEmitter()->attach($this->history);
+            $this->adapter->getHttpClient()->setDefaultOption('headers', [
+                'If-Modified-Since' => date('D, d M Y H:i:s T', strtotime('yesterday'))
+            ]);
         }
         return $this->adapter;
+    }
+
+    protected function getResourceMapper($resource)
+    {
+        return ResourceMapperFactory::factory($resource, $this->getAdapter());
     }
 }

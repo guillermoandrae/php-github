@@ -126,7 +126,7 @@ interface AdapterInterface
      *
      * @return mixed
      */
-    public function get($uri, $params = [], $headers = []);
+    public function get($uri, array $params = [], array $headers = []);
 
     /**
      * Sends a POST request to the GitHub API with the provided options.
@@ -137,7 +137,7 @@ interface AdapterInterface
      *
      * @return mixed
      */
-    public function post($uri, $params = [], $headers = []);
+    public function post($uri, array $params = [], array $headers = []);
 
     /**
      * Sends a PUT request to the GitHub API with the provided options.
@@ -148,7 +148,7 @@ interface AdapterInterface
      *
      * @return mixed
      */
-    public function put($uri, $params = [], $headers = []);
+    public function put($uri, array $params = [], array $headers = []);
 
     /**
      * Sends a PATCH request to the GitHub API with the provided options.
@@ -159,7 +159,7 @@ interface AdapterInterface
      *
      * @return mixed
      */
-    public function patch($uri, $params = [], $headers = []);
+    public function patch($uri, array $params = [], array $headers = []);
 
     /**
      * Sends a DELETE request to the GitHub API with the provided options.
@@ -170,7 +170,7 @@ interface AdapterInterface
      *
      * @return mixed
      */
-    public function delete($uri, $params = [], $headers = []);
+    public function delete($uri, array $params = [], array $headers = []);
 
     /**
      * Sends a HEAD request to the GitHub API with the provided options.
@@ -181,7 +181,7 @@ interface AdapterInterface
      *
      * @return mixed
      */
-    public function head($uri, $params = [], $headers = []);
+    public function head($uri, array $params = [], array $headers = []);
 
     /**
      * Sends a OPTIONS request to the GitHub API with the provided options.
@@ -192,7 +192,7 @@ interface AdapterInterface
      *
      * @return mixed
      */
-    public function options($uri, $params = [], $headers = []);
+    public function options($uri, array $params = [], array $headers = []);
 
     /**
      * Sends a request to the GitHub API with the provided options.
@@ -204,7 +204,7 @@ interface AdapterInterface
      *
      * @return mixed
      */
-    public function request($type, $uri, $params = [], $headers = []);
+    public function request($type, $uri, array $params = [], array $headers = []);
 
     /**
      * Registers an HTTP client object.

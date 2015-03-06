@@ -33,7 +33,8 @@ class ResourceMapperFactory
             $namespace = '\GitHub\Resource';
             $className = sprintf('%s\%s\%sMapper', $namespace, ucfirst($name), ucfirst($name));
             $reflectionClass = new \ReflectionClass($className);
-            $resource = $reflectionClass->newInstance($adapter);
+            $resource = $reflectionClass->newInstance();
+            $resource->setAdapter($adapter);
             return $resource;
         } catch (\ReflectionException $ex) {
             $message = sprintf('The \'%s\' resource was not found.', $name);

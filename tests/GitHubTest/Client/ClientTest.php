@@ -9,8 +9,9 @@
 namespace GitHubTest\Client;
 
 use GitHub\Client\Client;
+use GitHubTest\TestCase\TestCase;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     /**
      * @var \GitHub\Client\Client
@@ -25,9 +26,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \GitHub\Resource\Exception\InvalidResourceNameException
+     * @expectedException \GitHub\Resource\Exception\ResourceNotFoundException
      */
-    public function testGetInvalidResource()
+    public function testGetNotFoundResource()
     {
         $client = $this->getClient();
         $client->resource('foo');
@@ -36,6 +37,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->client = new Client();
+        $this->client->setAdapter($this->getAdapter());
     }
 
     private function getClient()

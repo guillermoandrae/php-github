@@ -14,7 +14,7 @@ namespace GitHub\Resource;
  * @package GitHub\Resource
  * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
  */
-class Collection implements \Iterator, \IteratorAggregate, \ArrayAccess
+class Collection implements \Countable, \Iterator, \ArrayAccess
 {
     /**
      * @var array
@@ -72,14 +72,6 @@ class Collection implements \Iterator, \IteratorAggregate, \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function getIterator()
-    {
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function offsetExists($index)
     {
         return array_key_exists($index, $this->collection);
@@ -111,14 +103,19 @@ class Collection implements \Iterator, \IteratorAggregate, \ArrayAccess
         return $this->collection[$index];
     }
 
+    public function count()
+    {
+        return count($this->collection);
+    }
+
     public function add(ResourceInterface $resource)
     {
         $this->collection[] = $resource;
         return $this;
     }
 
-    public function count()
+    public function isEmpty()
     {
-        return count($this->collection);
+        return ($this->count() === 0);
     }
 }

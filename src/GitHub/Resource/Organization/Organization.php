@@ -15,11 +15,27 @@ class Organization extends ResourceAbstract
 {
     use LoginAwareTrait;
 
+    /**
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * @var string
+     */
+    protected $billingEmail;
+
+    /**
+     * @return string
+     */
     public function getDescription()
     {
         return $this->description;
     }
 
+    /**
+     * @return string
+     */
     public function getBillingEmail()
     {
         return $this->billingEmail;

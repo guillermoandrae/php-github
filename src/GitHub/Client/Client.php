@@ -9,6 +9,8 @@
 namespace GitHub\Client;
 
 use GitHub\Adapter\AdapterAwareTrait;
+use GitHub\Adapter\AdapterFactory;
+use GitHub\Adapter\AdapterInterface;
 use GitHub\Resource\ResourceMapperFactory;
 
 /**
@@ -19,6 +21,13 @@ use GitHub\Resource\ResourceMapperFactory;
 class Client implements ClientInterface
 {
     use AdapterAwareTrait;
+
+    public function __construct(AdapterInterface $adapter = null)
+    {
+        if (!$adapter) {
+            $this->setAdapter(AdapterFactory::factory('guzzle'));
+        }
+    }
 
     /**
      * {@inheritdoc}

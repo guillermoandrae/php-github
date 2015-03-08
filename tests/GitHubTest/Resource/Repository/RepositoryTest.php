@@ -8,13 +8,13 @@
 
 namespace GitHubTest\Resource\Repository;
 
+use GitHub\Resource\ResourceMapperFactory;
 use GitHubTest\TestCase\ResourceTestCase;
 
 class RepositoryTest extends ResourceTestCase
 {
     public function testGetOwner()
     {
-        $this->markTestSkipped();
         $owner = $this->getResource()->getOwner();
         $this->assertInstanceOf('\GitHub\Resource\User\User', $owner);
         $this->assertSame('octocat', $owner->getLogin());
@@ -164,5 +164,17 @@ class RepositoryTest extends ResourceTestCase
     {
         $expectedPermissions = ['admin' => false, 'push' => false, 'pull' => true];
         $this->assertSame($expectedPermissions, $this->getResource()->getPermissions());
+    }
+
+    protected function setUp()
+    {
+        $name = $this->getResourceName();
+        $this->setMockResponses([
+            ['statusCode' => 200, 'body' => $this->getMockData('repositories')],
+            ['statusCode' => 200, 'body' => $this->getMockData('users')[0]],
+        ]);
+        $mapper = ResourceMapperFactory::factory($name, $this->getAdapter());
+        $collection = $mapper->findAll();
+        $this->resource = $collection->current();
     }
 }

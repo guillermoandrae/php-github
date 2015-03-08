@@ -8,7 +8,9 @@
 
 namespace GitHub\Resource\Repository;
 
+use GitHub\Resource\Collection;
 use GitHub\Resource\ResourceMapperAbstract;
+use GitHub\Resource\ResourceMapperFactory;
 
 class RepositoryMapper extends ResourceMapperAbstract
 {
@@ -32,5 +34,18 @@ class RepositoryMapper extends ResourceMapperAbstract
     {
         $uri = sprintf('/orgs/%s/repos', rawurlencode($login));
         return $this->findCollection($uri, $options);
+    }
+
+    protected function findCollection($uri, $options)
+    {
+        preg_match('/(\w+)Mapper/i', get_class($this), $matches);
+        $collection = new Collection();
+        $results = $this->getAdapter()->get($uri, $options);
+        foreach ($results as $result) {
+            $login = $result['owner']['login'];
+            $result['owner'] = ResourceMapperFactory::factory('user', $this->getAdapter())->find($login);
+            $collection[] = new Repository($result);
+        }
+        return $collection;
     }
 }

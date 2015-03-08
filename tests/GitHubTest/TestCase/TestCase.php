@@ -49,20 +49,29 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function setMockResponse($statusCode, array $body = [])
     {
-        $statusText = '';
-        $bodyAsString = json_encode($body);
-        switch($statusCode) {
-            case 200:
-                $statusText = 'OK';
-                break;
+        $this->setMockResponses([['statusCode' => $statusCode, 'body' => $body]]);
+    }
+
+    protected function setMockResponses(array $responseData)
+    {
+        $responses = [];
+        foreach ($responseData as $rd) {
+            $body = json_encode($rd['body']);
+            $rd['statusText'] = '';
+            switch($rd['statusCode']) {
+                case 200:
+                    $rd['statusText'] = 'OK';
+                    break;
+            }
+            $responses[] = sprintf(
+                "HTTP/1.1 %d %s\r\nContent-Length: %d\r\n\r\n%s",
+                $rd['statusCode'],
+                $rd['statusText'],
+                strlen($body),
+                $body
+            );
         }
-        $mockResponse = new Mock([sprintf(
-            "HTTP/1.1 %d %s\r\nContent-Length: %d\r\n\r\n%s",
-            $statusCode,
-            $statusText,
-            strlen($bodyAsString),
-            $bodyAsString
-        )]);
+        $mockResponse = new Mock($responses);
         $this->getAdapter()->getHttpClient()->getEmitter()->attach($mockResponse);
     }
 

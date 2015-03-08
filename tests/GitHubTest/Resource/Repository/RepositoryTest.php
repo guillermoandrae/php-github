@@ -12,6 +12,14 @@ use GitHubTest\TestCase\ResourceTestCase;
 
 class RepositoryTest extends ResourceTestCase
 {
+    public function testGetOwner()
+    {
+        $this->markTestSkipped();
+        $owner = $this->getResource()->getOwner();
+        $this->assertInstanceOf('\GitHub\Resource\User\User', $owner);
+        $this->assertSame('octocat', $owner->getLogin());
+    }
+
     public function testGetId()
     {
         $this->assertSame(1296269, $this->getResource()->getId());
@@ -80,5 +88,81 @@ class RepositoryTest extends ResourceTestCase
     public function testGetHomepage()
     {
         $this->assertSame('https://github.com', $this->getResource()->getHomepage());
+    }
+
+    public function testGetLanguage()
+    {
+        $this->assertNull($this->getResource()->getLanguage());
+    }
+
+    public function testGetForksCount()
+    {
+        $this->assertSame(9, $this->getResource()->getForksCount());
+    }
+
+    public function testGetStargazersCount()
+    {
+        $this->assertSame(80, $this->getResource()->getStargazersCount());
+    }
+
+    public function testGetWatchersCount()
+    {
+        $this->assertSame(80, $this->getResource()->getWatchersCount());
+    }
+
+    public function testGetSize()
+    {
+        $this->assertSame(108, $this->getResource()->getSize());
+    }
+
+    public function testGetDefaultBranch()
+    {
+        $this->assertSame('master', $this->getResource()->getDefaultBranch());
+    }
+
+    public function testGetOpenIssuesCount()
+    {
+        $this->assertSame(0, $this->getResource()->getOpenIssuesCount());
+    }
+
+    public function testHasIssues()
+    {
+        $this->assertTrue($this->getResource()->hasIssues());
+    }
+
+    public function testHasWiki()
+    {
+        $this->assertTrue($this->getResource()->hasWiki());
+    }
+
+    public function testHasPages()
+    {
+        $this->assertFalse($this->getResource()->hasPages());
+    }
+
+    public function testHasDownloads()
+    {
+        $this->assertTrue($this->getResource()->hasDownloads());
+    }
+
+    public function testGetPushedAt()
+    {
+        $this->assertSame('2011-01-26T19:06:43Z', $this->getResource()->getPushedAt(true));
+    }
+
+    public function testGetCreatedAt()
+    {
+        $this->assertSame('2011-01-26T19:01:12Z', $this->getResource()->getCreatedAt(true));
+    }
+
+    public function testGetUpdatedAt()
+    {
+        $this->assertSame('2011-01-26T19:14:43Z', $this->getResource()->getUpdatedAt(true));
+    }
+
+    public function testGetPermissions()
+    {
+        $expectedPermissions = ['admin' => false, 'push' => false, 'pull' => true];
+        $this->assertSame($expectedPermissions, $this->getResource()->getPermissions());
     }
 }

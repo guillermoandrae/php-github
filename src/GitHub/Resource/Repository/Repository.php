@@ -161,6 +161,11 @@ class Repository extends ResourceAbstract
     protected $updatedAt;
 
     /**
+     * @var array
+     */
+    protected $permissions;
+
+    /**
      * @return int
      */
     public function getId()
@@ -331,7 +336,7 @@ class Repository extends ResourceAbstract
     /**
      * @return boolean
      */
-    public function isHasIssues()
+    public function hasIssues()
     {
         return $this->hasIssues;
     }
@@ -339,7 +344,7 @@ class Repository extends ResourceAbstract
     /**
      * @return boolean
      */
-    public function isHasWiki()
+    public function hasWiki()
     {
         return $this->hasWiki;
     }
@@ -347,7 +352,7 @@ class Repository extends ResourceAbstract
     /**
      * @return boolean
      */
-    public function isHasPages()
+    public function hasPages()
     {
         return $this->hasPages;
     }
@@ -355,7 +360,7 @@ class Repository extends ResourceAbstract
     /**
      * @return boolean
      */
-    public function isHasDownloads()
+    public function hasDownloads()
     {
         return $this->hasDownloads;
     }
@@ -367,11 +372,6 @@ class Repository extends ResourceAbstract
     {
         return $this->permissions;
     }
-
-    /**
-     * @var array
-     */
-    protected $permissions;
 
     /**
      * @return array

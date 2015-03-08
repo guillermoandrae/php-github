@@ -19,4 +19,16 @@ use GitHub\Adapter\AdapterAwareTrait;
 abstract class ResourceMapperAbstract implements ResourceMapperInterface
 {
     use AdapterAwareTrait;
+
+    protected function findCollection($uri, $options)
+    {
+        preg_match('/(\w+)Mapper/i', get_class($this), $matches);
+        $resourceClassName = sprintf('\GitHub\Resource\%s\%s', $matches[1], $matches[1]);
+        $collection = new Collection();
+        $results = $this->getAdapter()->get($uri, $options);
+        foreach ($results as $result) {
+            $collection[] = new $resourceClassName($result);
+        }
+        return $collection;
+    }
 }

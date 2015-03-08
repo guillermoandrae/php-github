@@ -19,10 +19,10 @@ class OrganizationMapper extends ResourceMapperAbstract
         return new Organization($results);
     }
 
-    public function findAll($since = null)
+    public function findAll(array $options = [])
     {
         $orgs = new Collection();
-        $results = $this->getAdapter()->get('/users', array('since' => $since));
+        $results = $this->getAdapter()->get('/users', $options);
         foreach ($results as $result) {
             if ($result['type'] === 'Organization') {
                 $orgs->add(new Organization($result));

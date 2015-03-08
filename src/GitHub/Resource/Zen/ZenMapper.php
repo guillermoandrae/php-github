@@ -15,7 +15,12 @@ class ZenMapper extends ResourceMapperAbstract
 {
     public function findOne()
     {
+        return $this->findAll()[0];
+    }
+
+    public function findAll(array $options = [])
+    {
         $result = $this->getAdapter()->get('/zen');
-        return new Zen($result);
+        return new Collection([new Zen($result)]);
     }
 }

@@ -9,10 +9,9 @@
 namespace GitHubTest\TestCase;
 
 use GitHub\Adapter\GuzzleAdapter;
-use GitHub\Resource\ResourceMapperFactory;
-use GuzzleHttp\Message\Response;
 use GuzzleHttp\Subscriber\History;
 use GuzzleHttp\Subscriber\Mock;
+use GitHub\Resource\ResourceMapperFactory;
 
 class TestCase extends \PHPUnit_Framework_TestCase
 {
@@ -21,19 +20,33 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     private $adapter;
 
+    /**
+     * @var \GuzzleHttp\Subscriber\History
+     */
     private $history;
 
+    /**
+     * @return \GuzzleHttp\Subscriber\History
+     */
     protected function getMockHistory()
     {
         return $this->history;
     }
 
+    /**
+     * @param string $type
+     * @return array
+     */
     protected function getMockData($type)
     {
         $path = sprintf('tests/data/%s.json', $type);
         return json_decode(file_get_contents($path), true);
     }
 
+    /**
+     * @param int $statusCode
+     * @param array $body
+     */
     protected function setMockResponse($statusCode, array $body = [])
     {
         $statusText = '';
@@ -53,15 +66,15 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $this->getAdapter()->getHttpClient()->getEmitter()->attach($mockResponse);
     }
 
+    /**
+     * @return GuzzleAdapter
+     */
     protected function getAdapter()
     {
         if (!$this->adapter) {
             $this->history = new History();
             $this->adapter = new GuzzleAdapter();
             $this->adapter->getHttpClient()->getEmitter()->attach($this->history);
-            $this->adapter->getHttpClient()->setDefaultOption('headers', [
-                'If-Modified-Since' => date('D, d M Y H:i:s T', strtotime('yesterday'))
-            ]);
         }
         return $this->adapter;
     }

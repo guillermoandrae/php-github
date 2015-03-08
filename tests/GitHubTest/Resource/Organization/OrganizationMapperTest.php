@@ -8,28 +8,23 @@
 
 namespace GitHubTest\Resource\Organization;
 
-use GitHubTest\TestCase\TestCase;
+use GitHubTest\TestCase\ResourceMapperTestCase;
 
-class OrganizationMapperTest extends TestCase
+class OrganizationMapperTest extends ResourceMapperTestCase
 {
     public function testFind()
     {
-        $this->setMockResponse(200, $this->getMockData('organizations')[0]);
-        $org = $this->getOrganizationMapper()->find('github');
+        $this->setMockResponse(200);
+        $org = $this->getMapper()->find('github');
         $this->assertInstanceOf('\GitHub\Resource\Organization\Organization', $org);
-        $this->assertSame('github', $org->getLogin());
+        $this->assertRequestUri('/orgs/github');
     }
 
     public function testFindAll()
     {
         $this->setMockResponse(200, $this->getMockData('organizations'));
-        $orgs = $this->getOrganizationMapper()->findAll();
-        $this->assertInstanceOf('\GitHub\Resource\Collection', $orgs);
-        $this->assertNotCount(0, $orgs);
-    }
-
-    private function getOrganizationMapper()
-    {
-        return $this->getResourceMapper('organization');
+        $collection = $this->getMapper()->findAll();
+        $this->assertRequestUri('/users');
+        $this->assertCollectionNotEmpty($collection);
     }
 }

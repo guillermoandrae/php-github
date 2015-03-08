@@ -8,29 +8,22 @@
 
 namespace GitHubTest\Resource\User;
 
-use GitHub\Resource\User\UserMapper;
-use GitHubTest\TestCase\TestCase;
+use GitHubTest\TestCase\ResourceMapperTestCase;
 
-class UserMapperTest extends TestCase
+class UserMapperTest extends ResourceMapperTestCase
 {
     public function testFind()
     {
-        $this->setMockResponse(200, $this->getMockData('users')[0]);
-        $user = $this->getUserMapper()->find('octocat');
-        $this->assertInstanceOf('\GitHub\Resource\User\User', $user);
-        $this->assertSame('octocat', $user->getLogin());
+        $this->setMockResponse(200);
+        $this->getMapper()->find('octocat');
+        $this->assertRequestUri('/users/octocat');
     }
 
     public function testFindAll()
     {
         $this->setMockResponse(200, $this->getMockData('users'));
-        $users = $this->getUserMapper()->findAll();
-        $this->assertInstanceOf('\GitHub\Resource\Collection', $users);
-        $this->assertNotCount(0, $users);
-    }
-
-    private function getUserMapper()
-    {
-        return $this->getResourceMapper('user');
+        $users = $this->getMapper()->findAll();
+        $this->assertRequestUri('/users');
+        $this->assertCollectionNotEmpty($users);
     }
 }

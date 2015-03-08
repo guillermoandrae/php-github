@@ -18,147 +18,147 @@ class Repository extends ResourceAbstract
     /**
      * @var array
      */
-    private $owner;
+    protected $owner;
 
     /**
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      */
-    private $fullName;
+    protected $fullName;
 
     /**
      * @var string
      */
-    private $description;
+    protected $description;
 
     /**
      * @var boolean
      */
-    private $private;
+    protected $private;
 
     /**
      * @var boolean
      */
-    private $fork;
+    protected $fork;
 
     /**
      * @var string
      */
-    private $url;
+    protected $url;
 
     /**
      * @var string
      */
-    private $htmlUrl;
+    protected $htmlUrl;
 
     /**
      * @var string
      */
-    private $cloneUrl;
+    protected $cloneUrl;
 
     /**
      * @var string
      */
-    private $gitUrl;
+    protected $gitUrl;
 
     /**
      * @var string
      */
-    private $sshUrl;
+    protected $sshUrl;
 
     /**
      * @var string
      */
-    private $svnUrl;
+    protected $svnUrl;
 
     /**
      * @var string
      */
-    private $mirrorUrl;
+    protected $mirrorUrl;
 
     /**
      * @var string
      */
-    private $homepage;
+    protected $homepage;
 
     /**
      * @var string
      */
-    private $language;
+    protected $language;
 
     /**
      * @var int
      */
-    private $forksCount;
+    protected $forksCount;
 
     /**
      * @var int
      */
-    private $stargazersCount;
+    protected $stargazersCount;
 
     /**
      * @var int
      */
-    private $watchersCount;
+    protected $watchersCount;
 
     /**
      * @var int
      */
-    private $size;
+    protected $size;
 
     /**
      * @var string
      */
-    private $defaultBranch;
+    protected $defaultBranch;
 
     /**
      * @var int
      */
-    private $openIssuesCount;
+    protected $openIssuesCount;
 
     /**
      * @var boolean
      */
-    private $hasIssues;
+    protected $hasIssues;
 
     /**
      * @var boolean
      */
-    private $hasWiki;
+    protected $hasWiki;
 
     /**
      * @var boolean
      */
-    private $hasPages;
+    protected $hasPages;
 
     /**
      * @var boolean
      */
-    private $hasDownloads;
+    protected $hasDownloads;
 
     /**
      * @var string
      */
-    private $pushedAt;
+    protected $pushedAt;
 
     /**
      * @var string
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * @return int
@@ -371,7 +371,7 @@ class Repository extends ResourceAbstract
     /**
      * @var array
      */
-    private $permissions;
+    protected $permissions;
 
     /**
      * @return array

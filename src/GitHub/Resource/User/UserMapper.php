@@ -19,10 +19,10 @@ class UserMapper extends ResourceMapperAbstract
         return new User($results);
     }
 
-    public function findAll($since = null)
+    public function findAll(array $options = [])
     {
         $users = new Collection();
-        $results = $this->getAdapter()->get('/users', array('since' => $since));
+        $results = $this->getAdapter()->get('/users', $options);
         foreach ($results as $result) {
             if ($result['type'] === 'User') {
                 $users->add(new User($result));

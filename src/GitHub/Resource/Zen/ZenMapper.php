@@ -13,14 +13,9 @@ use GitHub\Resource\ResourceMapperAbstract;
 
 class ZenMapper extends ResourceMapperAbstract
 {
-    public function findOne()
-    {
-        return $this->findAll()[0];
-    }
-
-    public function findAll(array $options = [])
+    public function find()
     {
         $result = $this->getAdapter()->get('/zen');
-        return new Collection([new Zen($result)]);
+        return new Zen($result);
     }
 }

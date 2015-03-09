@@ -18,5 +18,4 @@ use GitHub\Adapter\AdapterAwareInterface;
  */
 interface ResourceMapperInterface extends AdapterAwareInterface
 {
-    public function findAll(array $options = []);
 }

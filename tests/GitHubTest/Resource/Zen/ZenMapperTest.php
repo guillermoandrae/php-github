@@ -12,11 +12,11 @@ use GitHubTest\TestCase\TestCase;
 
 class ZenMapperTest extends TestCase
 {
-    public function testFindOne()
+    public function testFind()
     {
         $expectedMessage = 'A Zen test message.';
         $this->setMockResponses([[200, [$expectedMessage]]]);
-        $zen = $this->getResourceMapper('zen')->findOne();
+        $zen = $this->getResourceMapper('zen')->find();
         $this->assertSame($expectedMessage, (string) $zen);
     }
 }

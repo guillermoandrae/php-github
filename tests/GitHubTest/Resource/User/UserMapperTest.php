@@ -14,14 +14,14 @@ class UserMapperTest extends ResourceMapperTestCase
 {
     public function testFind()
     {
-        $this->setMockResponse(200);
+        $this->setMockResponses([[200]]);
         $this->getMapper()->find('octocat');
         $this->assertRequestUri('/users/octocat');
     }
 
     public function testFindAll()
     {
-        $this->setMockResponse(200, $this->getMockData('users'));
+        $this->setMockResponses([[200, $this->getMockData('users')]]);
         $users = $this->getMapper()->findAll();
         $this->assertRequestUri('/users');
         $this->assertCollectionNotEmpty($users);

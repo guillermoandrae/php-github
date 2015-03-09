@@ -15,7 +15,7 @@ class ZenMapperTest extends TestCase
     public function testFindOne()
     {
         $expectedMessage = 'A Zen test message.';
-        $this->setMockResponse(200, [$expectedMessage]);
+        $this->setMockResponses([[200, [$expectedMessage]]]);
         $zen = $this->getResourceMapper('zen')->findOne();
         $this->assertSame($expectedMessage, (string) $zen);
     }

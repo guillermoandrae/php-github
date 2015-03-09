@@ -92,7 +92,7 @@ class UserTest extends TestCase
 
     protected function setUp()
     {
-        $this->setMockResponse(200, $this->getMockData('users')[0]);
+        $this->setMockResponses([[200, $this->getMockData('users')[0]]]);
         $mapper = new UserMapper();
         $mapper->setAdapter($this->getAdapter());
         $this->user = $mapper->find('octocat');

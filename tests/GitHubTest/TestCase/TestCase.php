@@ -44,29 +44,32 @@ class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int $statusCode
-     * @param array $body
+     * @param array $responseData
      */
-    protected function setMockResponse($statusCode, array $body = [])
-    {
-        $this->setMockResponses([['statusCode' => $statusCode, 'body' => $body]]);
-    }
-
     protected function setMockResponses(array $responseData)
     {
         $responses = [];
         foreach ($responseData as $rd) {
-            $body = json_encode($rd['body']);
-            $rd['statusText'] = '';
-            switch($rd['statusCode']) {
+            $statusCode = $rd[0];
+            $statusText = '';
+            $body = '';
+            if (!isset($rd[1])) {
+                $rd[1] = [];
+            }
+            if (is_string($rd[1])) {
+                $body = $rd[1];
+            } elseif (is_array($rd[1])) {
+                $body = json_encode($rd[1]);
+            }
+            switch($statusCode) {
                 case 200:
-                    $rd['statusText'] = 'OK';
+                    $statusText = 'OK';
                     break;
             }
             $responses[] = sprintf(
                 "HTTP/1.1 %d %s\r\nContent-Length: %d\r\n\r\n%s",
-                $rd['statusCode'],
-                $rd['statusText'],
+                $statusCode,
+                $statusText,
                 strlen($body),
                 $body
             );

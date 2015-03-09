@@ -33,7 +33,7 @@ class ResourceTestCase extends TestCase implements ResourceNameAwareInterface
         $name = $this->getResourceName();
         $jsonFilename = Inflector::get()->pluralize(strtolower($name));
         $mockData = $this->getMockData($jsonFilename);
-        $this->setMockResponse(200, $mockData);
+        $this->setMockResponses([[200, $mockData]]);
         $mapper = ResourceMapperFactory::factory($name, $this->getAdapter());
         $collection = $mapper->findAll();
         $this->resource = $collection->current();

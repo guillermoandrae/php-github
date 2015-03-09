@@ -14,28 +14,28 @@ class RepositoryMapperTest extends ResourceMapperTestCase
 {
     public function testFindAll()
     {
-        $this->setMockResponse(200);
+        $this->setMockResponses([[200]]);
         $this->getMapper()->findAll();
         $this->assertRequestUri('/repositories');
     }
 
     public function testFindMine()
     {
-        $this->setMockResponse(200);
+        $this->setMockResponses([[200]]);
         $this->getMapper()->findMine();
         $this->assertRequestUri('/user/repos');
     }
 
     public function testFindByUser()
     {
-        $this->setMockResponse(200);
+        $this->setMockResponses([[200]]);
         $this->getMapper()->findByUser('octocat');
         $this->assertRequestUri('/users/octocat/repos');
     }
 
     public function testFindByOrganization()
     {
-        $this->setMockResponse(200);
+        $this->setMockResponses([[200]]);
         $this->getMapper()->findByOrganization('github');
         $this->assertRequestUri('/orgs/github/repos');
     }

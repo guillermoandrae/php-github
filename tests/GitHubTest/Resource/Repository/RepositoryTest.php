@@ -170,8 +170,8 @@ class RepositoryTest extends ResourceTestCase
     {
         $name = $this->getResourceName();
         $this->setMockResponses([
-            ['statusCode' => 200, 'body' => $this->getMockData('repositories')],
-            ['statusCode' => 200, 'body' => $this->getMockData('users')[0]],
+            [200, $this->getMockData('repositories')],
+            [200, $this->getMockData('users')[0]],
         ]);
         $mapper = ResourceMapperFactory::factory($name, $this->getAdapter());
         $collection = $mapper->findAll();

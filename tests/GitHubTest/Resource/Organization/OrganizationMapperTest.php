@@ -14,7 +14,7 @@ class OrganizationMapperTest extends ResourceMapperTestCase
 {
     public function testFind()
     {
-        $this->setMockResponse(200);
+        $this->setMockResponses([[200]]);
         $org = $this->getMapper()->find('github');
         $this->assertInstanceOf('\GitHub\Resource\Organization\Organization', $org);
         $this->assertRequestUri('/orgs/github');
@@ -22,7 +22,7 @@ class OrganizationMapperTest extends ResourceMapperTestCase
 
     public function testFindAll()
     {
-        $this->setMockResponse(200, $this->getMockData('organizations'));
+        $this->setMockResponses([[200, $this->getMockData('organizations')]]);
         $collection = $this->getMapper()->findAll();
         $this->assertRequestUri('/users');
         $this->assertCollectionNotEmpty($collection);

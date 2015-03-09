@@ -25,7 +25,7 @@ class OrganizationTest extends TestCase
 
     protected function setUp()
     {
-        $this->setMockResponse(200, $this->getMockData('organizations')[0]);
+        $this->setMockResponses([[200, $this->getMockData('organizations')[0]]]);
         $mapper = new OrganizationMapper();
         $mapper->setAdapter($this->getAdapter());
         $this->org = $mapper->find('github');

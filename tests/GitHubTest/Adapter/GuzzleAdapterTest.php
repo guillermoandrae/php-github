@@ -30,7 +30,7 @@ class GuzzleAdapterTest extends TestCase
     {
         $auth = ['octocat', null, AdapterInterface::AUTH_OAUTH_TOKEN];
         $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
-        $this->setMockResponse(200);
+        $this->setMockResponses([[200]]);
         $this->getAdapter()->get('/zen');
     }
 
@@ -41,7 +41,7 @@ class GuzzleAdapterTest extends TestCase
     {
         $auth = ['octocat', '1234567890', 'foo'];
         $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
-        $this->setMockResponse(200);
+        $this->setMockResponses([[200]]);
         $this->getAdapter()->get('/zen');
     }
 
@@ -66,7 +66,7 @@ class GuzzleAdapterTest extends TestCase
         $uri = '/users/repos';
         $expectedStatusCode = 200;
         $expectedResult = $this->getMockData('repositories')[0];
-        $this->setMockResponse($expectedStatusCode, $expectedResult);
+        $this->setMockResponses([[$expectedStatusCode, $expectedResult]]);
         $this->assertSame($expectedResult, $this->getAdapter()->get($uri));
         $this->assertValidMockRequest('GET', $uri, $expectedStatusCode);
     }
@@ -80,7 +80,7 @@ class GuzzleAdapterTest extends TestCase
             'name' => 'Hello-NewWorld',
         ]);
         $expectedResult = $newRepository;
-        $this->setMockResponse($expectedStatusCode, $expectedResult);
+        $this->setMockResponses([[$expectedStatusCode, $expectedResult]]);
         $params = $newRepository;
         unset($params['id']);
         $this->assertSame($expectedResult, $this->getAdapter()->post($uri, $params));
@@ -91,7 +91,7 @@ class GuzzleAdapterTest extends TestCase
     {
         $uri = '/users/octocat/suspended';
         $expectedStatusCode = 204;
-        $this->setMockResponse($expectedStatusCode);
+        $this->setMockResponses([[$expectedStatusCode]]);
         $this->assertEmpty($this->getAdapter()->put($uri));
         $this->assertValidMockRequest('PUT', $uri, $expectedStatusCode);
     }
@@ -103,7 +103,7 @@ class GuzzleAdapterTest extends TestCase
         $updates = ['name' => 'Hello-NewWorld'];
         $newRepository = array_merge($this->getMockData('repositories')[0], $updates);
         $expectedResult = $newRepository;
-        $this->setMockResponse($expectedStatusCode, $expectedResult);
+        $this->setMockResponses([[$expectedStatusCode, $expectedResult]]);
         $this->assertSame($expectedResult, $this->getAdapter()->patch($uri, $updates));
         $this->assertValidMockRequest('PATCH', $uri, $expectedStatusCode);
     }
@@ -112,7 +112,7 @@ class GuzzleAdapterTest extends TestCase
     {
         $uri = '/repos/octocat/Hello-World';
         $expectedStatusCode = 204;
-        $this->setMockResponse($expectedStatusCode);
+        $this->setMockResponses([[$expectedStatusCode]]);
         $this->assertEmpty($this->getAdapter()->delete($uri));
         $this->assertValidMockRequest('DELETE', $uri, $expectedStatusCode);
     }
@@ -121,7 +121,7 @@ class GuzzleAdapterTest extends TestCase
     {
         $uri = '/users/repos';
         $expectedStatusCode = 200;
-        $this->setMockResponse($expectedStatusCode);
+        $this->setMockResponses([[$expectedStatusCode]]);
         $this->assertEmpty($this->getAdapter()->head($uri));
         $this->assertValidMockRequest('HEAD', $uri, $expectedStatusCode);
     }
@@ -130,7 +130,7 @@ class GuzzleAdapterTest extends TestCase
     {
         $uri = '/users/repos';
         $expectedStatusCode = 204;
-        $this->setMockResponse($expectedStatusCode);
+        $this->setMockResponses([[$expectedStatusCode]]);
         $this->assertEmpty($this->getAdapter()->options($uri));
         $this->assertValidMockRequest('OPTIONS', $uri, $expectedStatusCode);
     }
@@ -141,7 +141,7 @@ class GuzzleAdapterTest extends TestCase
         $expectedMethod = 'GET';
         $expectedStatusCode = 200;
         $expectedResult = $this->getMockData('repositories')[0];
-        $this->setMockResponse($expectedStatusCode, $expectedResult);
+        $this->setMockResponses([[$expectedStatusCode, $expectedResult]]);
         $this->assertSame($expectedResult, $this->getAdapter()->request($expectedMethod, $uri));
         $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
     }
@@ -155,7 +155,7 @@ class GuzzleAdapterTest extends TestCase
         $expectedResult = $this->getMockData('repositories')[0];
         $cache = new FilesystemCache('/tmp/php-github-test');
         $this->getAdapter()->setCache($cache);
-        $this->setMockResponse($expectedStatusCode, $expectedResult);
+        $this->setMockResponses([[$expectedStatusCode, $expectedResult]]);
         $this->assertSame($expectedResult, $this->getAdapter()->request($expectedMethod, $uri));
         $this->assertSame($expectedResult, $this->getAdapter()->getCache()->fetch(serialize([$expectedMethod, $uri])));
         $this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);

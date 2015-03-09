@@ -18,11 +18,4 @@ class EnterpriseMapper extends ResourceMapperAbstract
         $results = $this->getAdapter()->get($uri);
         return new License($results);
     }
-
-    public function findStats()
-    {
-        $uri = '/enterprise/stats';
-        $results = $this->getAdapter()->get($uri);
-        return new Stats($results);
-    }
 }

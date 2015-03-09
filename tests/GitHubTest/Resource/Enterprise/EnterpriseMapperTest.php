@@ -19,12 +19,4 @@ class EnterpriseMapperTest extends ResourceMapperTestCase
         $this->assertInstanceOf('\GitHub\Resource\Enterprise\License', $license);
         $this->assertRequestUri('/enterprise/settings/license');
     }
-
-    public function testFindStats()
-    {
-        $this->setMockResponses([[200]]);
-        $stats = $this->getMapper()->findStats();
-        $this->assertInstanceOf('\GitHub\Resource\Enterprise\Stats', $stats);
-        $this->assertRequestUri('/enterprise/stats');
-    }
 }

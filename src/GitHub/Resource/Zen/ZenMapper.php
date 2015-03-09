@@ -13,6 +13,9 @@ use GitHub\Resource\ResourceMapperAbstract;
 
 class ZenMapper extends ResourceMapperAbstract
 {
+    /**
+     * @return Zen
+     */
     public function find()
     {
         $result = $this->getAdapter()->get('/zen');

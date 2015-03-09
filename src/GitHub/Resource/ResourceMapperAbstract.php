@@ -20,6 +20,11 @@ abstract class ResourceMapperAbstract implements ResourceMapperInterface
 {
     use AdapterAwareTrait;
 
+    /**
+     * @param string $uri
+     * @param array $options
+     * @return array|Collection
+     */
     protected function findCollection($uri, $options)
     {
         preg_match('/(\w+)Mapper/i', get_class($this), $matches);

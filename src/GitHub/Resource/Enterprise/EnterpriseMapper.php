@@ -12,6 +12,9 @@ use GitHub\Resource\ResourceMapperAbstract;
 
 class EnterpriseMapper extends ResourceMapperAbstract
 {
+    /**
+     * @return License
+     */
     public function findLicense()
     {
         $uri = '/enterprise/settings/license';

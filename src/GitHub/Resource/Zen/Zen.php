@@ -12,18 +12,30 @@ use GitHub\Resource\ResourceAbstract;
 
 class Zen extends ResourceAbstract
 {
+    /**
+     * @var string
+     */
     private $message;
 
+    /**
+     * @param array $data
+     */
     public function __construct(array $data)
     {
         $this->message = array_shift($data);
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getMessage();
     }
 
+    /**
+     * @return string
+     */
     public function getMessage()
     {
         return $this->message;

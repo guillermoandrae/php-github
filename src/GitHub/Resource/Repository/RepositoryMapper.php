@@ -14,28 +14,52 @@ use GitHub\Resource\ResourceMapperFactory;
 
 class RepositoryMapper extends ResourceMapperAbstract
 {
+    /**
+     * @param array $options
+     * @return array|Collection
+     */
     public function findAll(array $options = [])
     {
         return $this->findCollection('/repositories', $options);
     }
 
+    /**
+     * @param array $options
+     * @return array|Collection
+     */
     public function findMine(array $options = [])
     {
         return $this->findCollection('/user/repos', $options);
     }
 
+    /**
+     * @param $login
+     * @param array $options
+     * @return array|Collection
+     */
     public function findByUser($login, array $options = [])
     {
         $uri = sprintf('/users/%s/repos', rawurlencode($login));
         return $this->findCollection($uri, $options);
     }
 
+    /**
+     * @param $login
+     * @param array $options
+     * @return array|Collection
+     */
     public function findByOrganization($login, array $options = [])
     {
         $uri = sprintf('/orgs/%s/repos', rawurlencode($login));
         return $this->findCollection($uri, $options);
     }
 
+    /**
+     * @param $uri
+     * @param $options
+     * @return array|Collection
+     * @throws \GitHub\Resource\Exception\ResourceNotFoundException
+     */
     protected function findCollection($uri, $options)
     {
         preg_match('/(\w+)Mapper/i', get_class($this), $matches);

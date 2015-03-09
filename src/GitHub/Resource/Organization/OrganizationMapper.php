@@ -13,12 +13,20 @@ use GitHub\Resource\ResourceMapperAbstract;
 
 class OrganizationMapper extends ResourceMapperAbstract
 {
+    /**
+     * @param $login
+     * @return Organization
+     */
     public function find($login)
     {
         $results = $this->getAdapter()->get(sprintf('/orgs/%s', rawurlencode($login)));
         return new Organization($results);
     }
 
+    /**
+     * @param array $options  OPTIONAL
+     * @return Collection
+     */
     public function findAll(array $options = [])
     {
         $orgs = new Collection();

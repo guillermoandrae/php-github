@@ -22,6 +22,10 @@ class Client implements ClientInterface
 {
     use AdapterAwareTrait;
 
+    /**
+     * @param AdapterInterface $adapter
+     * @throws \GitHub\Adapter\Exception\AdapterNotFoundException
+     */
     public function __construct(AdapterInterface $adapter = null)
     {
         if (!$adapter) {

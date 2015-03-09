@@ -13,18 +13,29 @@ use GitHub\Resource\ResourceMapperAbstract;
 
 class UserMapper extends ResourceMapperAbstract
 {
+    /**
+     * @param $login
+     * @return User
+     */
     public function find($login)
     {
         $results = $this->getAdapter()->get(sprintf('/users/%s', rawurlencode($login)));
         return new User($results);
     }
 
+    /**
+     * @return User
+     */
     public function findMe()
     {
         $results = $this->getAdapter()->get('/user');
         return new User($results);
     }
 
+    /**
+     * @param array $options
+     * @return Collection
+     */
     public function findAll(array $options = [])
     {
         $users = new Collection();

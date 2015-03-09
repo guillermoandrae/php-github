@@ -103,17 +103,27 @@ class Collection implements \Countable, \Iterator, \ArrayAccess
         return $this->collection[$index];
     }
 
+    /**
+     * @return int
+     */
     public function count()
     {
         return count($this->collection);
     }
 
+    /**
+     * @param ResourceInterface $resource
+     * @return $this
+     */
     public function add(ResourceInterface $resource)
     {
         $this->collection[] = $resource;
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function isEmpty()
     {
         return ($this->count() === 0);

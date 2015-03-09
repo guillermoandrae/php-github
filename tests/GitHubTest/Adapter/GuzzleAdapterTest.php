@@ -158,7 +158,6 @@ class GuzzleAdapterTest extends TestCase
         $this->setMockResponses([[$expectedStatusCode, $expectedResult]]);
         $this->assertSame($expectedResult, $this->getAdapter()->request($expectedMethod, $uri));
         $this->assertSame($expectedResult, $this->getAdapter()->getCache()->fetch(serialize([$expectedMethod, $uri])));
-        //$this->assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode);
     }
 
     protected function assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode)

@@ -15,8 +15,7 @@ install:
   - composer install --no-interaction --prefer-source
 
 script:
-  - ./vendor/bin/phpunit --coverage-clover=coverage.clover
-  - ./vendor/bin/phpcs --standard=PSR2 --extensions=php src
+  - ./vendor/bin/phing build
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

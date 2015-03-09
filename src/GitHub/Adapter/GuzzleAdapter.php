@@ -128,16 +128,17 @@ class GuzzleAdapter extends AdapterAbstract
      */
     public function request($type, $uri, array $params = [], array $headers = [])
     {
-        $cacheKey = serialize(func_get_args());
-        $options = $this->buildRequestOptions($params, $headers);
-        if ($cache = $this->getCache() && $result = $this->getCache()->fetch($cacheKey)) {
-            return $result;
+        $args = func_get_args();
+        $cacheId = md5(serialize($args));
+        if ($this->getCache() && $this->getCache()->contains($cacheId)) {
+            return $this->getCache()->fetch($cacheId);
         }
+        $options = $this->buildRequestOptions($params, $headers);
         $request = $this->getHttpClient()->createRequest($type, $uri, $options);
         $response = $this->getHttpClient()->send($request);
         $result = $response->json();
-        if ($cache) {
-            $cache->save($cacheKey, $result);
+        if ($this->getCache()) {
+            $this->getCache()->save($cacheId, $result);
         }
         return $result;
     }

@@ -34,11 +34,9 @@ class GuzzleAdapterTest extends TestCase
         $this->getAdapter()->get('/zen');
     }
 
-    /**
-     * @expectedException \GitHub\Adapter\Exception\InvalidAuthenticationSchemeException
-     */
     public function testSetInvalidSchemeAuthentication()
     {
+        $this->setExpectedException('\GitHub\Adapter\Exception\InvalidAuthenticationSchemeException');
         $auth = ['octocat', '1234567890', 'foo'];
         $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
         $this->setMockResponses([[200]]);
@@ -148,16 +146,16 @@ class GuzzleAdapterTest extends TestCase
 
     public function testCachedRequest()
     {
-        //$this->markTestSkipped('Need to figure out caching.');
         $uri = '/users/repos';
         $expectedMethod = 'GET';
-        $expectedStatusCode = 200;
         $expectedResult = $this->getMockData('repositories')[0];
-        $cache = new FilesystemCache('/tmp/php-github-test');
+        $cache = new FilesystemCache('./build/cache');
         $this->getAdapter()->setCache($cache);
-        $this->setMockResponses([[$expectedStatusCode, $expectedResult]]);
-        $this->assertSame($expectedResult, $this->getAdapter()->request($expectedMethod, $uri));
-        $this->assertSame($expectedResult, $this->getAdapter()->getCache()->fetch(serialize([$expectedMethod, $uri])));
+        $this->setMockResponses([[200, $expectedResult]]);
+        for ($i=0; $i<3; $i++) {
+            $this->assertSame($expectedResult, $this->getAdapter()->request($expectedMethod, $uri));
+        }
+        $this->assertNotNull($this->getAdapter()->getCache()->getStats()['memory_usage']);
     }
 
     protected function assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode)

@@ -1,5 +1,6 @@
 # php-github
 [![Travis branch](https://img.shields.io/travis/guillermoandrae/php-github.svg?style=flat)](https://travis-ci.org/guillermoandrae/php-github) [![Coverage Status](http://img.shields.io/scrutinizer/coverage/g/guillermoandrae/php-github.svg?style=flat)](https://scrutinizer-ci.com/g/guillermoandrae/php-github/?branch=master) [![Code Quality](http://img.shields.io/scrutinizer/g/guillermoandrae/php-github.svg?style=flat)](https://scrutinizer-ci.com/g/guillermoandrae/php-github/?branch=master) [![HHVM](https://img.shields.io/hhvm/guillermoandrae/php-github.svg?style=flat)](http://hhvm.h4cc.de/package/guillermoandrae/php-github.json)
+
 A PHP client library for the [GitHub API](https://developer.github.com/v3/).
 
 ## Installation

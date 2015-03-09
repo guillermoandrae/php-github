@@ -19,6 +19,12 @@ class UserMapper extends ResourceMapperAbstract
         return new User($results);
     }
 
+    public function findMe()
+    {
+        $results = $this->getAdapter()->get('/user');
+        return new User($results);
+    }
+
     public function findAll(array $options = [])
     {
         $users = new Collection();

@@ -14,4 +14,4 @@ filter:
 build_failure_conditions:
   - 'issues.label("coding-style").exists'
   - 'project.metric("scrutinizer.quality", < 8)'
-  - 'project.metric("scrutinizer.test_coverage", < 0.90)'
+  - 'project.metric("scrutinizer.test_coverage", < 0.80)'

@@ -19,6 +19,13 @@ class UserMapperTest extends ResourceMapperTestCase
         $this->assertRequestUri('/users/octocat');
     }
 
+    public function testFindMe()
+    {
+        $this->setMockResponses([[200]]);
+        $this->getMapper()->findMe();
+        $this->assertRequestUri('/user');
+    }
+
     public function testFindAll()
     {
         $this->setMockResponses([[200, $this->getMockData('users')]]);

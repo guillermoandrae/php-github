@@ -40,4 +40,12 @@ class Client implements ClientInterface
     {
         return ResourceMapperFactory::factory($name, $this->getAdapter());
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAuthentication($username, $password, $authScheme)
+    {
+        $this->getAdapter()->setAuthentication($username, $password, $authScheme);
+    }
 }

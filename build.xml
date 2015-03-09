@@ -25,4 +25,11 @@
               checkreturn="true" />
     </target>
 
+    <!-- PHP Code Sniffer -->
+    <target name="phpcs" description="Run style checks">
+        <echo msg="Running all style checks..." />
+        <exec command="${bin.dir}/phpcs --standard=PSR2 --extensions=php src"
+              checkreturn="true" />
+    </target>
+
 </project>

@@ -8,6 +8,8 @@
 
 namespace GitHub\Resource\Enterprise;
 
-class Stats
+use GitHub\Resource\ResourceAbstract;
+
+class Stats extends ResourceAbstract
 {
 }

@@ -8,6 +8,26 @@
 
 namespace GitHub\Resource\Enterprise;
 
-class EnterpriseMapper
+use GitHub\Resource\ResourceMapperAbstract;
+
+class EnterpriseMapper extends ResourceMapperAbstract
 {
+    public function findAll(array $options = [])
+    {
+
+    }
+
+    public function findLicense()
+    {
+        $uri = '/enterprise/settings/license';
+        $results = $this->getAdapter()->get($uri);
+        return new License($results);
+    }
+
+    public function findStats()
+    {
+        $uri = '/enterprise/stats';
+        $results = $this->getAdapter()->get($uri);
+        return new Stats($results);
+    }
 }

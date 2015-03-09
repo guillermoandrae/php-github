@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Set some basic project information and targets -->
-<project name="HRPHP Portal" default="build" basedir=".">
+<project name="php-github" default="build" basedir=".">
 
     <target name="build"
             depends="prepare, phpunit" />

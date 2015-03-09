@@ -18,7 +18,7 @@ The basic client uses [Guzzle](http://docs.guzzlephp.org/en/latest/) to communic
 
 ```php
 // create the client
-$client = new GitHub\Client();
+$client = new GitHub\Client\Client();
 ```
 
 Resources are represented as objects, and resource data is fetched through the use of object mappers:

@@ -9,7 +9,7 @@
 namespace GitHubTest\Adapter;
 
 use Doctrine\Common\Cache\FilesystemCache;
-use GitHub\Adapter\AdapterInterface;
+use GitHub\Http\ClientInterface as HttpClientInterface;
 use GitHubTest\TestCase\TestCase;
 use GuzzleHttp\Client;
 
@@ -17,26 +17,29 @@ class GuzzleAdapterTest extends TestCase
 {
     public function testSetGetAuthentication()
     {
-        $auth = ['octocat', '1234567890', AdapterInterface::AUTH_OAUTH_TOKEN];
+        $auth = ['octocat', '1234567890', HttpClientInterface::AUTH_OAUTH_TOKEN];
         $result = $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
         $this->assertInstanceOf('\GitHub\Adapter\GuzzleAdapter', $result);
         $this->assertSame($auth, $this->getAdapter()->getAuthentication());
     }
 
-    /**
-     * @expectedException \GitHub\Adapter\Exception\MissingCredentialsException
-     */
-    public function testSetMissingCredentialsAuthentication()
+    public function testSetMissingCredentialsAuthenticationUsername()
     {
-        $auth = ['octocat', null, AdapterInterface::AUTH_OAUTH_TOKEN];
+        $this->setExpectedException('\GitHub\Http\Exception\MissingCredentialsException');
+        $auth = [null, 'octocat', HttpClientInterface::AUTH_HTTP_PASSWORD];
         $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
-        $this->setMockResponses([[200]]);
-        $this->getAdapter()->get('/zen');
+    }
+
+    public function testSetMissingCredentialsAuthenticationPassword()
+    {
+        $this->setExpectedException('\GitHub\Http\Exception\MissingCredentialsException');
+        $auth = ['octocat', null, HttpClientInterface::AUTH_HTTP_PASSWORD];
+        $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
     }
 
     public function testSetInvalidSchemeAuthentication()
     {
-        $this->setExpectedException('\GitHub\Adapter\Exception\InvalidAuthenticationSchemeException');
+        $this->setExpectedException('\GitHub\Http\Exception\InvalidAuthenticationSchemeException');
         $auth = ['octocat', '1234567890', 'foo'];
         $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
         $this->setMockResponses([[200]]);
@@ -156,6 +159,24 @@ class GuzzleAdapterTest extends TestCase
             $this->assertSame($expectedResult, $this->getAdapter()->request($expectedMethod, $uri));
         }
         $this->assertNotNull($this->getAdapter()->getCache()->getStats()['memory_usage']);
+    }
+
+    public function testSetBaseUrl()
+    {
+        $baseUrl = 'https://github.local';
+        $result = $this->getAdapter()->setBaseUrl($baseUrl);
+        $this->assertSame($baseUrl, $this->getAdapter()->getHttpClient()->getBaseUrl());
+        $this->assertInstanceOf('\GitHub\Adapter\GuzzleAdapter', $result);
+
+    }
+
+    public function testSetProxy()
+    {
+        $proxy = 'tcp://some.proxy';
+        $result = $this->getAdapter()->setProxy($proxy);
+        $this->assertSame($proxy, $this->getAdapter()->getHttpClient()->getDefaultOption('proxy'));
+        $this->assertInstanceOf('\GitHub\Adapter\GuzzleAdapter', $result);
+
     }
 
     protected function assertValidMockRequest($expectedMethod, $uri, $expectedStatusCode)

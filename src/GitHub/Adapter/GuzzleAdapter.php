@@ -8,8 +8,8 @@
 
 namespace GitHub\Adapter;
 
-use GitHub\Adapter\Exception\InvalidAuthenticationSchemeException;
-use GitHub\Adapter\Exception\MissingCredentialsException;
+use GitHub\Http\Exception\InvalidAuthenticationSchemeException;
+use GitHub\Http\Exception\MissingCredentialsException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Cache\CacheSubscriber;
 
@@ -29,19 +29,14 @@ class GuzzleAdapter extends AdapterAbstract
      *
      * @param string $baseUrl OPTIONAL The base URL
      */
-    public function __construct($baseUrl = '')
+    public function __construct()
     {
-        if (!$baseUrl) {
-            $baseUrl = 'https://api.github.com/';
-        }
-        $httpClient = new Client([
-            'base_url' => [$baseUrl, ['version' => 'v3']],
+        $this->setHttpClient(new Client([
+            'base_url' => 'https://api.github.com/',
             'defaults' => [
-                'headers' => ['Accept' => 'application/vnd.github.v3+json'],
+                'headers' => ['Accept' => 'application/vnd.github.v3+json']
             ]
-        ]);
-        CacheSubscriber::attach($httpClient);
-        $this->setHttpClient($httpClient);
+        ]));
     }
 
     /**
@@ -49,13 +44,22 @@ class GuzzleAdapter extends AdapterAbstract
      */
     public function setAuthentication($username, $password, $authScheme)
     {
-        if (is_null($username) || is_null($password) || is_null($authScheme)) {
-            throw new MissingCredentialsException('Please provide both a valid username and password/token.');
+        if (is_null($username)) {
+            $message = 'Please provide credentials.';
+            throw new MissingCredentialsException($message);
         }
 
-        if (!in_array($authScheme, [self::AUTH_OAUTH_TOKEN, self::AUTH_HTTP_PASSWORD])) {
-            throw new InvalidAuthenticationSchemeException('Please provide a valid authentication scheme.');
+        $authSchemes = [self::AUTH_OAUTH_TOKEN, self::AUTH_HTTP_PASSWORD];
+        if (!in_array($authScheme, $authSchemes, false)) {
+            $message = 'Please provide a valid authentication scheme.';
+            throw new InvalidAuthenticationSchemeException($message);
         }
+
+        if ($authScheme !== self::AUTH_OAUTH_TOKEN && is_null($password)) {
+            $message = 'The desired authentication scheme requires a username and a password.';
+            throw new MissingCredentialsException($message);
+        }
+
         $this->getHttpClient()->setDefaultOption('auth', [$username, $password, $authScheme]);
         return $this;
     }
@@ -142,6 +146,38 @@ class GuzzleAdapter extends AdapterAbstract
             $this->getCache()->save($cacheId, $result);
         }
         return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setBaseUrl($url)
+    {
+        $defaultOptions = $this->getHttpClient()->getDefaultOption();
+        $options = array_merge(['base_url' => $url], $defaultOptions);
+        $client = new Client($options);
+        $this->setHttpClient($client);
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setProxy($proxy)
+    {
+        $client = $this->getHttpClient();
+        $client->setDefaultOption('proxy', $proxy);
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setHttpClient($client)
+    {
+        CacheSubscriber::attach($client);
+        parent::setHttpClient($client);
+        return $this;
     }
 
     private function buildRequestOptions(array $params, array $headers)

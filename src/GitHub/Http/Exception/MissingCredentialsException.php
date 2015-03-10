@@ -6,8 +6,8 @@
  * file that was distributed with this source code.
  */
 
-namespace GitHub\Adapter\Exception;
+namespace GitHub\Http\Exception;
 
-class InvalidAuthenticationSchemeException extends \Exception
+class MissingCredentialsException extends \Exception
 {
 }

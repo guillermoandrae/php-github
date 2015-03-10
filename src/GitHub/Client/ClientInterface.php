@@ -26,9 +26,4 @@ interface ClientInterface extends AdapterAwareInterface
      * @return \GitHub\Resource\ResourceMapperInterface
      */
     public function resource($name);
-
-    /**
-     * @see AdapterInterface::setAuthentication()
-     */
-    public function setAuthentication($username, $password, $authScheme);
 }

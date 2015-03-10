@@ -9,6 +9,7 @@
 namespace GitHub\Adapter;
 
 use Doctrine\Common\Cache\Cache;
+use GitHub\Http\ClientInterface;
 
 /**
  * Interface for all GitHub API adapters.
@@ -16,91 +17,8 @@ use Doctrine\Common\Cache\Cache;
  * @package GitHub\Adapter
  * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
  */
-interface AdapterInterface
+interface AdapterInterface extends ClientInterface
 {
-    /**
-     * Authentication type used when authenticating with GitHub username and password.
-     *
-     * @const string
-     */
-    const AUTH_HTTP_PASSWORD = 'digest';
-
-    /**
-     * Authentication type used when authenticating with GitHub username and OAuth token.
-     *
-     * @const string
-     */
-    const AUTH_OAUTH_TOKEN = 'basic';
-
-    /**
-     * HTTP GET method.
-     *
-     * @const string
-     */
-    const HTTP_GET = 'GET';
-
-    /**
-     * HTTP POST method.
-     *
-     * @const string
-     */
-    const HTTP_POST = 'POST';
-
-    /**
-     * HTTP PUT method.
-     *
-     * @const string
-     */
-    const HTTP_PUT = 'PUT';
-
-    /**
-     * HTTP PATCH method.
-     *
-     * @const string
-     */
-    const HTTP_PATCH = 'PATCH';
-
-    /**
-     * HTTP DELETE method.
-     *
-     * @const string
-     */
-    const HTTP_DELETE = 'DELETE';
-
-    /**
-     * HTTP HEAD method.
-     *
-     * @const string
-     */
-    const HTTP_HEAD = 'HEAD';
-
-    /**
-     * HTTP OPTIONS method.
-     *
-     * @const string
-     */
-    const HTTP_OPTIONS = 'OPTIONS';
-
-    /**
-     * Sets credentials to use to authenticate requests.
-     *
-     * @param string $username The username to use
-     * @param string $password The password or token to use
-     * @param string $authScheme The authentication scheme to use
-     *
-     * @return \GitHub\Adapter\AdapterInterface
-     * @throws \GitHub\Adapter\Exception\MissingCredentialsException
-     * @throws \GitHub\Adapter\Exception\InvalidAuthenticationSchemeException
-     */
-    public function setAuthentication($username, $password, $authScheme);
-
-    /**
-     * Returns the registered authentication credentials.
-     *
-     * @return array
-     */
-    public function getAuthentication();
-
     /**
      * Registers a cache object.
      *
@@ -116,95 +34,6 @@ interface AdapterInterface
      * @return \Doctrine\Common\Cache\Cache
      */
     public function getCache();
-
-    /**
-     * Sends a GET request to the GitHub API with the provided options.
-     *
-     * @param string $uri The request URI
-     * @param array $params OPTIONAL Additional request parameters
-     * @param array $headers OPTIONAL Additional request headers
-     *
-     * @return mixed
-     */
-    public function get($uri, array $params = [], array $headers = []);
-
-    /**
-     * Sends a POST request to the GitHub API with the provided options.
-     *
-     * @param string $uri The request URI
-     * @param array $params OPTIONAL Additional request parameters
-     * @param array $headers OPTIONAL Additional request headers
-     *
-     * @return mixed
-     */
-    public function post($uri, array $params = [], array $headers = []);
-
-    /**
-     * Sends a PUT request to the GitHub API with the provided options.
-     *
-     * @param string $uri The request URI
-     * @param array $params OPTIONAL Additional request parameters
-     * @param array $headers OPTIONAL Additional request headers
-     *
-     * @return mixed
-     */
-    public function put($uri, array $params = [], array $headers = []);
-
-    /**
-     * Sends a PATCH request to the GitHub API with the provided options.
-     *
-     * @param string $uri The request URI
-     * @param array $params OPTIONAL Additional request parameters
-     * @param array $headers OPTIONAL Additional request headers
-     *
-     * @return mixed
-     */
-    public function patch($uri, array $params = [], array $headers = []);
-
-    /**
-     * Sends a DELETE request to the GitHub API with the provided options.
-     *
-     * @param string $uri The request URI
-     * @param array $params OPTIONAL Additional request parameters
-     * @param array $headers OPTIONAL Additional request headers
-     *
-     * @return mixed
-     */
-    public function delete($uri, array $params = [], array $headers = []);
-
-    /**
-     * Sends a HEAD request to the GitHub API with the provided options.
-     *
-     * @param string $uri The request URI
-     * @param array $params OPTIONAL Additional request parameters
-     * @param array $headers OPTIONAL Additional request headers
-     *
-     * @return mixed
-     */
-    public function head($uri, array $params = [], array $headers = []);
-
-    /**
-     * Sends a OPTIONS request to the GitHub API with the provided options.
-     *
-     * @param string $uri The request URI
-     * @param array $params OPTIONAL Additional request parameters
-     * @param array $headers OPTIONAL Additional request headers
-     *
-     * @return mixed
-     */
-    public function options($uri, array $params = [], array $headers = []);
-
-    /**
-     * Sends a request to the GitHub API with the provided options.
-     *
-     * @param string $type The request method
-     * @param string $uri The request URI
-     * @param array $params OPTIONAL Additional request parameters
-     * @param array $headers OPTIONAL Additional request headers
-     *
-     * @return mixed
-     */
-    public function request($type, $uri, array $params = [], array $headers = []);
 
     /**
      * Registers an HTTP client object.

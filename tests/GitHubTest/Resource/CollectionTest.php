@@ -42,6 +42,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->getCollection()->valid());
     }
 
+    public function testCount()
+    {
+        $this->assertCount(3, $this->getCollection());
+        $this->assertSame(3, $this->getCollection()->count());
+    }
+
     protected function setUp()
     {
         $this->collection = new Collection(['a', 'b', 'c']);

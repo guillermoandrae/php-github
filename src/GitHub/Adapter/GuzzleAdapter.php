@@ -23,11 +23,6 @@ class GuzzleAdapter extends AdapterAbstract
 {
     /**
      * Builds the adapter.
-     *
-     * When working against an instance of GitHub Enterprise, provide the base
-     * URL as this constructor's only argument.
-     *
-     * @param string $baseUrl OPTIONAL The base URL
      */
     public function __construct()
     {

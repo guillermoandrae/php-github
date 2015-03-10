@@ -15,35 +15,30 @@ use GuzzleHttp\Client;
 
 class GuzzleAdapterTest extends TestCase
 {
-    public function testSetGetAuthentication()
+    public function testAuthenticate()
     {
         $auth = ['octocat', '1234567890', HttpClientInterface::AUTH_OAUTH_TOKEN];
-        $result = $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
+        $result = $this->getAdapter()->authenticate($auth[2], $auth[0], $auth[1]);
         $this->assertInstanceOf('\GitHub\Adapter\GuzzleAdapter', $result);
-        $this->assertSame($auth, $this->getAdapter()->getAuthentication());
+        $this->assertSame($auth, $this->getAdapter()->getHttpClient()->getDefaultOption('auth'));
     }
 
-    public function testSetMissingCredentialsAuthenticationUsername()
+    public function testMissingCredentialsAuthenticationUsername()
     {
         $this->setExpectedException('\GitHub\Http\Exception\MissingCredentialsException');
-        $auth = [null, 'octocat', HttpClientInterface::AUTH_HTTP_PASSWORD];
-        $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
+        $this->getAdapter()->authenticate(HttpClientInterface::AUTH_HTTP_PASSWORD, null, 'password');
     }
 
     public function testSetMissingCredentialsAuthenticationPassword()
     {
         $this->setExpectedException('\GitHub\Http\Exception\MissingCredentialsException');
-        $auth = ['octocat', null, HttpClientInterface::AUTH_HTTP_PASSWORD];
-        $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
+        $this->getAdapter()->authenticate(HttpClientInterface::AUTH_HTTP_PASSWORD, 'octocat', null);
     }
 
     public function testSetInvalidSchemeAuthentication()
     {
         $this->setExpectedException('\GitHub\Http\Exception\InvalidAuthenticationSchemeException');
-        $auth = ['octocat', '1234567890', 'foo'];
-        $this->getAdapter()->setAuthentication($auth[0], $auth[1], $auth[2]);
-        $this->setMockResponses([[200]]);
-        $this->getAdapter()->get('/zen');
+        $this->getAdapter()->authenticate('foo', 'octocat', 'password');
     }
 
     public function testSetGetHttpClient()

@@ -36,9 +36,9 @@ class Client implements ClientInterface, HttpClientInterface
             $this->setBaseUrl(GITHUB_URL);
         }
         if (defined('GITHUB_OAUTH_TOKEN')) {
-            $this->setAuthentication(GITHUB_OAUTH_TOKEN, null, AdapterInterface::AUTH_OAUTH_TOKEN);
+            $this->authenticate(AdapterInterface::AUTH_OAUTH_TOKEN, GITHUB_OAUTH_TOKEN);
         } elseif (defined('GITHUB_USERNAME') && defined('GITHUB_PASSWORD')) {
-            $this->setAuthentication(GITHUB_USERNAME, GITHUB_PASSWORD, AdapterInterface::AUTH_HTTP_PASSWORD);
+            $this->authenticate(AdapterInterface::AUTH_HTTP_PASSWORD, GITHUB_USERNAME, GITHUB_PASSWORD);
         }
     }
 
@@ -117,9 +117,9 @@ class Client implements ClientInterface, HttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function setAuthentication($username, $password, $authScheme)
+    public function authenticate($authScheme, $username, $password = null)
     {
-        $this->getAdapter()->setAuthentication($username, $password, $authScheme);
+        $this->getAdapter()->authenticate($authScheme, $username, $password);
         return $this;
     }
 

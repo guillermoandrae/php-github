@@ -37,17 +37,16 @@ class GuzzleAdapter extends AdapterAbstract
     /**
      * {@inheritdoc}
      */
-    public function setAuthentication($username, $password, $authScheme)
+    public function authenticate($authScheme, $username, $password = null)
     {
+        if (!in_array($authScheme, [self::AUTH_OAUTH_TOKEN, self::AUTH_HTTP_PASSWORD], false)) {
+            $message = 'Please provide a valid authentication scheme.';
+            throw new InvalidAuthenticationSchemeException($message);
+        }
+
         if (is_null($username)) {
             $message = 'Please provide credentials.';
             throw new MissingCredentialsException($message);
-        }
-
-        $authSchemes = [self::AUTH_OAUTH_TOKEN, self::AUTH_HTTP_PASSWORD];
-        if (!in_array($authScheme, $authSchemes, false)) {
-            $message = 'Please provide a valid authentication scheme.';
-            throw new InvalidAuthenticationSchemeException($message);
         }
 
         if ($authScheme !== self::AUTH_OAUTH_TOKEN && is_null($password)) {

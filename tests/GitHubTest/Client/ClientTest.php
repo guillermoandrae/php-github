@@ -115,9 +115,9 @@ class ClientTest extends TestCase
 
     public function testSetAuthentication()
     {
-        $adapter = $this->getMockAdapter('setAuthentication');
+        $adapter = $this->getMockAdapter('authenticate');
         $client = (new Client())->setAdapter($adapter);
-        $result = $client->setAuthentication('username', 'password', HttpClientInterface::AUTH_HTTP_PASSWORD);
+        $result = $client->authenticate(HttpClientInterface::AUTH_HTTP_PASSWORD, 'username', 'password');
         $this->assertInstanceOf('\GitHub\Client\ClientInterface', $result);
     }
 

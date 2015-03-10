@@ -81,15 +81,15 @@ interface ClientInterface
     /**
      * Sets credentials to use to authenticate requests.
      *
-     * @param string $username The username to use
-     * @param string $password The password or token to use
      * @param string $authScheme The authentication scheme to use
+     * @param string $username The username or OAuth token
+     * @param string $password OPTIONAL The password
      *
      * @return $this
      * @throws \GitHub\Http\Exception\MissingCredentialsException
      * @throws \GitHub\Http\Exception\InvalidAuthenticationSchemeException
      */
-    public function setAuthentication($username, $password, $authScheme);
+    public function authenticate($authScheme, $username, $password = null);
 
     /**
      * Sends a GET request to the GitHub API with the provided options.

@@ -18,4 +18,25 @@ class ResourceMapperFactoryTest extends TestCase
         $this->setExpectedException('\GitHub\Resource\Exception\ResourceNotFoundException');
         ResourceMapperFactory::factory('foo', $this->getAdapter());
     }
+
+    /**
+     * @dataProvider getResourceAliases
+     * @param string $alias
+     */
+    public function testResourceAlias($alias)
+    {
+        $mapper = ResourceMapperFactory::factory($alias, $this->getAdapter());
+        $this->assertInstanceOf('\GitHub\Resource\ResourceMapperInterface', $mapper);
+    }
+
+    public function getResourceAliases()
+    {
+        return [
+            ['repos'],
+            ['repo'],
+            ['user'],
+            ['orgs'],
+            ['org']
+        ];
+    }
 }

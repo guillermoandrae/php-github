@@ -18,6 +18,7 @@ use GitHub\Resource\ResourceMapperFactory;
  * GitHub Client.
  *
  * @package GitHub\Client
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
  */
 class Client implements ClientInterface, HttpClientInterface
 {

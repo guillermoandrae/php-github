@@ -8,10 +8,18 @@
 
 namespace GitHub\Adapter;
 
+/**
+ * Factory for adapter classes.
+ *
+ * @package GitHub\Adapter
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class AdapterFactory
 {
     /**
-     * @param $name
+     * Builds adapter classes.
+     *
+     * @param string $name  Name of the desired adapter class
      * @return AdapterInterface
      * @throws Exception\AdapterNotFoundException
      */

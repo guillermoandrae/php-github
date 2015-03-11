@@ -11,6 +11,12 @@ namespace GitHub\Resource\Repository;
 use GitHub\Resource\DateTimeAwareTrait;
 use GitHub\Resource\ResourceAbstract;
 
+/**
+ * Repository resource.
+ *
+ * @package GitHub\Resource\Repository
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class Repository extends ResourceAbstract
 {
     use DateTimeAwareTrait;

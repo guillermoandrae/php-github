@@ -10,6 +10,12 @@ namespace GitHub\Resource\Zen;
 
 use GitHub\Resource\ResourceAbstract;
 
+/**
+ * Zen resource.
+ *
+ * @package GitHub\Resource\Zen
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class Zen extends ResourceAbstract
 {
     /**

@@ -11,6 +11,12 @@ namespace GitHub\Resource\Enterprise;
 use GitHub\Resource\DateTimeAwareTrait;
 use GitHub\Resource\ResourceAbstract;
 
+/**
+ * License resource.
+ *
+ * @package GitHub\Resource\Enterprise
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class License extends ResourceAbstract
 {
     use DateTimeAwareTrait;

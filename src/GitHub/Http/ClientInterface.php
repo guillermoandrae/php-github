@@ -12,6 +12,7 @@ namespace GitHub\Http;
  * Interface for dealing with HTTP methods.
  *
  * @package GitHub\Http
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
  */
 interface ClientInterface
 {
@@ -183,15 +184,15 @@ interface ClientInterface
     /**
      * Sets the proxy to use when making requests.
      *
-     * @param string $proxy
+     * @param string $proxy  The proxy
      * @return $this
      */
     public function setProxy($proxy);
 
     /**
-     * Sets the base URL to use on requests.
+     * Sets the base URL to use on requests (GitHub Enterprise).
      *
-     * @param string $url
+     * @param string $url  The base URL
      * @return $this
      */
     public function setBaseUrl($url);

@@ -11,6 +11,12 @@ namespace GitHub\Resource\Zen;
 use GitHub\Resource\Collection;
 use GitHub\Resource\ResourceMapperAbstract;
 
+/**
+ * Zen mapper.
+ *
+ * @package GitHub\Resource\Zen
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class ZenMapper extends ResourceMapperAbstract
 {
     /**

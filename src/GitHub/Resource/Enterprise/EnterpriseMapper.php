@@ -10,6 +10,12 @@ namespace GitHub\Resource\Enterprise;
 
 use GitHub\Resource\ResourceMapperAbstract;
 
+/**
+ * Enterprise mapper.
+ *
+ * @package GitHub\Resource\Enterprise
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class EnterpriseMapper extends ResourceMapperAbstract
 {
     /**

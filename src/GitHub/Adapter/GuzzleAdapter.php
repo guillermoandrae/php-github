@@ -174,6 +174,13 @@ class GuzzleAdapter extends AdapterAbstract
         return $this;
     }
 
+    /**
+     * Builds request options.
+     *
+     * @param array $params  Request parameters
+     * @param array $headers  Request options
+     * @return array
+     */
     private function buildRequestOptions(array $params, array $headers)
     {
         $options = array_merge($params, ['headers' => $headers]);

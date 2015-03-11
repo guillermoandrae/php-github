@@ -12,6 +12,12 @@ use GitHub\Resource\Collection;
 use GitHub\Resource\ResourceMapperAbstract;
 use GitHub\Resource\ResourceMapperFactory;
 
+/**
+ * Repository mapper.
+ *
+ * @package GitHub\Resource\Repository
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class RepositoryMapper extends ResourceMapperAbstract
 {
     /**

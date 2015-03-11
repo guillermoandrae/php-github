@@ -11,6 +11,12 @@ namespace GitHub\Resource\User;
 use GitHub\Resource\LoginAwareTrait;
 use GitHub\Resource\ResourceAbstract;
 
+/**
+ * User resource.
+ *
+ * @package GitHub\Resource\User
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class User extends ResourceAbstract
 {
     use LoginAwareTrait;

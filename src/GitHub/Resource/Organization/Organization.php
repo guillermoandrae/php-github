@@ -11,6 +11,12 @@ namespace GitHub\Resource\Organization;
 use GitHub\Resource\LoginAwareTrait;
 use GitHub\Resource\ResourceAbstract;
 
+/**
+ * Organization resource.
+ *
+ * @package GitHub\Resource\Organization
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class Organization extends ResourceAbstract
 {
     use LoginAwareTrait;

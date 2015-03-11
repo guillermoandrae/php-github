@@ -11,6 +11,12 @@ namespace GitHub\Resource\Organization;
 use GitHub\Resource\Collection;
 use GitHub\Resource\ResourceMapperAbstract;
 
+/**
+ * Organization mapper.
+ *
+ * @package GitHub\Resource\Organization
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class OrganizationMapper extends ResourceMapperAbstract
 {
     /**

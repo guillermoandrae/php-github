@@ -8,6 +8,12 @@
 
 namespace GitHub\Adapter\Exception;
 
+/**
+ * Exception thrown when an adapter is not found.
+ *
+ * @package GitHub\Adapter\Exception
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class AdapterNotFoundException extends \Exception
 {
 }

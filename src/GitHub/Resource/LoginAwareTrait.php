@@ -8,6 +8,12 @@
 
 namespace GitHub\Resource;
 
+/**
+ * Trait for resources associated with a login name.
+ *
+ * @package GitHub\Resource
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 trait LoginAwareTrait
 {
     use DateTimeAwareTrait;

@@ -8,6 +8,12 @@
 
 namespace GitHub\Resource\Exception;
 
+/**
+ * Exception thrown when a resource is not found.
+ *
+ * @package GitHub\Resource\Exception
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class ResourceNotFoundException extends \Exception
 {
 }

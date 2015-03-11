@@ -8,6 +8,12 @@
 
 namespace GitHub\Resource;
 
+/**
+ * Trait for resources that have date information.
+ *
+ * @package GitHub\Resource
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 trait DateTimeAwareTrait
 {
     /**

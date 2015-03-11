@@ -11,6 +11,12 @@ namespace GitHub\Resource\User;
 use GitHub\Resource\Collection;
 use GitHub\Resource\ResourceMapperAbstract;
 
+/**
+ * User mapper.
+ *
+ * @package GitHub\Resource\User
+ * @author Guillermo A. Fisher <me@guillermoandraefisher.com>
+ */
 class UserMapper extends ResourceMapperAbstract
 {
     /**

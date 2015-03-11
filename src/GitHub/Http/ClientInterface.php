@@ -84,7 +84,7 @@ interface ClientInterface
      *
      * @param string $authScheme The authentication scheme to use
      * @param string $username The username or OAuth token
-     * @param string $password OPTIONAL The password
+     * @param string|null $password OPTIONAL The password
      *
      * @return $this
      * @throws \GitHub\Http\Exception\MissingCredentialsException

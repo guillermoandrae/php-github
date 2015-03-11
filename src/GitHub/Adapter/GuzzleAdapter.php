@@ -8,9 +8,13 @@
 
 namespace GitHub\Adapter;
 
+use GitHub\Http\Exception\InvalidAuthCredentialsException;
 use GitHub\Http\Exception\InvalidAuthenticationSchemeException;
+use GitHub\Http\Exception\MaximumAuthAttemptsException;
 use GitHub\Http\Exception\MissingCredentialsException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Subscriber\Cache\CacheSubscriber;
 
 /**
@@ -127,19 +131,30 @@ class GuzzleAdapter extends AdapterAbstract
      */
     public function request($type, $uri, array $params = [], array $headers = [])
     {
-        $args = func_get_args();
-        $cacheId = md5(serialize($args));
-        if ($this->getCache() && $this->getCache()->contains($cacheId)) {
-            return $this->getCache()->fetch($cacheId);
+        try {
+            $args = func_get_args();
+            $cacheId = md5(serialize($args));
+            if ($this->getCache() && $this->getCache()->contains($cacheId)) {
+                return $this->getCache()->fetch($cacheId);
+            }
+            $options = $this->buildRequestOptions($params, $headers);
+            $request = $this->getHttpClient()->createRequest($type, $uri, $options);
+            $response = $this->getHttpClient()->send($request);
+            $result = $response->json();
+            if ($this->getCache()) {
+                $this->getCache()->save($cacheId, $result);
+            }
+            return $result;
+        } catch(ClientException $ex) {
+            $response = $ex->getResponse();
+            $message = $response->json()['message'];
+            switch($response->getStatusCode()) {
+                case 401:
+                    throw new InvalidAuthCredentialsException($message);
+                case 403:
+                    throw new MaximumAuthAttemptsException($message);
+            }
         }
-        $options = $this->buildRequestOptions($params, $headers);
-        $request = $this->getHttpClient()->createRequest($type, $uri, $options);
-        $response = $this->getHttpClient()->send($request);
-        $result = $response->json();
-        if ($this->getCache()) {
-            $this->getCache()->save($cacheId, $result);
-        }
-        return $result;
     }
 
     /**

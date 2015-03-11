@@ -23,22 +23,52 @@ class GuzzleAdapterTest extends TestCase
         $this->assertSame($auth, $this->getAdapter()->getHttpClient()->getDefaultOption('auth'));
     }
 
-    public function testMissingCredentialsAuthenticationUsername()
+    public function testMissingCredentialsUsername()
     {
         $this->setExpectedException('\GitHub\Http\Exception\MissingCredentialsException');
         $this->getAdapter()->authenticate(HttpClientInterface::AUTH_HTTP_PASSWORD, null, 'password');
     }
 
-    public function testSetMissingCredentialsAuthenticationPassword()
+    public function testMissingCredentialsPassword()
     {
         $this->setExpectedException('\GitHub\Http\Exception\MissingCredentialsException');
         $this->getAdapter()->authenticate(HttpClientInterface::AUTH_HTTP_PASSWORD, 'octocat', null);
     }
 
-    public function testSetInvalidSchemeAuthentication()
+    public function testInvalidAuthenticationScheme()
     {
         $this->setExpectedException('\GitHub\Http\Exception\InvalidAuthenticationSchemeException');
         $this->getAdapter()->authenticate('foo', 'octocat', 'password');
+    }
+
+    public function testInvalidAuthCredentials()
+    {
+        $this->setMockResponses([
+            [
+                401,
+                [
+                    'message' => 'Bad credentials',
+                    'documentation_url' => 'https://developer.github.com/v3'
+                ]
+            ]
+        ]);
+        $this->setExpectedException('\GitHub\Http\Exception\InvalidAuthCredentialsException');
+        $this->getAdapter()->get('/zen');
+    }
+
+    public function testMaximumAuthAttempts()
+    {
+        $this->setMockResponses([
+            [
+                403,
+                [
+                    'message' => 'Maximum number of login attempts exceeded. Please try again later.',
+                    'documentation_url' => 'https://developer.github.com/v3'
+                ]
+            ]
+        ]);
+        $this->setExpectedException('\GitHub\Http\Exception\MaximumAuthAttemptsException');
+        $this->getAdapter()->get('/zen');
     }
 
     public function testSetGetHttpClient()
